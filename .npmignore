@@ -1,0 +1,8 @@
+lib
+docs
+babel-sass-preprocessor.js
+.idea
+.jsdoc.conf.js
+.jshintrc
+.jshintignore
+.travis.yml
