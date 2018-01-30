@@ -12,22 +12,27 @@ import './styles.scss'
 /**
 * This React component shows a switch to choose one of the theme's buttons colors
 * available in the UI default theme.
-* The component should be used in a form where a button can accept a color depending
+* The component should be used in a form to confiugure a button that can accept a color depending
 * on the user's choice.
+* 
+* Default color is 'secondary',
+* Available colors are: 'primary', 'secondary', 'inconspicuous'
+* Component properties: {@link ActionColorSwitch.propTypes}.
+*
+* @example <caption>Use it in React JSX syntax</caption>
+* <ActionColorSwitch thme={this.props.theme} animationLevel={this.props.animationLevel} defaultColor="primary" onChange={(color) => { this.currentColor = color; }} />
+* @public
+* @hideconstructor
+* @tutorial https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
 */
 class ActionColorSwitch extends React.Component {
-  /**
-  * Creates an ActionColorSwitch instance.
-  * 
-  * @param {object} props - React properties {@link ActionColorSwitch.propTypes}.
-  */
   constructor (props) {
     super(props)
     this.state = {
       color: props.defaultColor
     }
     this._id = `actionColorSwitch-${uuid.v4()}`
-    this._colors = ['primary', 'secondary', 'inconspicuous', 'edition']
+    this._colors = ['primary', 'secondary', 'inconspicuous']
   }
 
   componentDidMount () {
@@ -74,8 +79,12 @@ class ActionColorSwitch extends React.Component {
 
 /**
 * React properties to use on this component:
-* - thele - the asterism theme object. Often available in the mainState object of a context.
-* - animationLevel - the asterism main parameter for visual animatikons. Often available from the parent component, or in the mainState object of a context.
+* @property {object} theme - the asterism theme object. Often available from the parent component, or in the mainState object of a context.
+* @property {number} animationLevel - the asterism main parameter for visual animatikons. Often available from the parent component, or in the mainState object of a context.
+* @property {string} defaultColor - the default color to set to the component when mounted. By default, will be 'secondary'.
+* @property {ActionColorSwitch.propTypes.onChange} onchange - A function called as a callback when the user changes the color.
+*
+* @public
 */
 ActionColorSwitch.propTypes = {
   theme: PropTypes.object.isRequired,
@@ -83,6 +92,12 @@ ActionColorSwitch.propTypes = {
   defaultColor: PropTypes.string,
   onChange: PropTypes.func.isRequired
 }
+
+/**
+ * Test jsdoc on this behavior.
+ * @callback ActionColorSwitch.propTypes.onChange
+ * @param {string} color
+ */
 
 ActionColorSwitch.defaultProps = {
   defaultColor: 'secondary'
