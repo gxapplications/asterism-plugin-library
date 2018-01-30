@@ -12,8 +12,10 @@ class Item extends React.Component {
     }
   }
 
+  /** If you need to override this, please ensure you call super.receiveNewParams(), or at least set your item state with the whole new params data */
   receiveNewParams (params) {
     this.setState({ params })
+    this.params = params
     console.log(`New params received for item #${this.props.id}.`)
   }
 }

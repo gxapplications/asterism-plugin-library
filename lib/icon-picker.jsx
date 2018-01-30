@@ -189,7 +189,7 @@ class IconPicker extends React.Component {
       </div>
     )
     return (
-      <Modal id={this._id} header='Pick an icon'
+      <Modal id={this._id} header='Pick an icon' fixedFooter
         modalOptions={{
           inDuration: animationLevel >= 2 ? 300 : 0,
           outDuration: animationLevel >= 2 ? 300 : 0
@@ -197,7 +197,7 @@ class IconPicker extends React.Component {
         actions={modalActions} trigger={triggerButton}>
 
         <Input s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
-          defaultValue={search} onChange={this.search.bind(this)} />
+          defaultValue={search} onChange={this.search.bind(this)} class='iconPickerSearch' />
 
         <div className='iconPickerContent'>
           <div className='iconList'>

@@ -37,11 +37,13 @@
   }
 }
 
-.iconPickerContent {
-  height: 45vh;
-  overflow-x: hidden;
-  overflow-y: scroll;
+.iconPickerSearch {
+  & > i.material-icons.prefix {
+    top: 0.4rem;
+  }
+}
 
+.iconPickerContent {
   & .iconList {
     display: inline-flex;
     flex-direction: row;
