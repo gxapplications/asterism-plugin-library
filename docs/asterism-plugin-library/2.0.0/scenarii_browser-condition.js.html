@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenarii/browser-condition.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenarii/browser-condition.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+/**
+ * The BrowserCondition is the class you need to override to describe the behavior of you scenarii element (type condition)
+ * on the browser side. A scenarii condition element will be instantiated through this extending class on the browser side.
+ *
+ * In your extending class, you MUST override these attributes:
+ * - &lt;YourClass>.type = { name: 'MyOwnConditionType', shortLabel: 'My condition', fullLabel: 'My condition that checks something' }
+ * - &lt;YourClass>.get name()
+ * - &lt;YourClass>.get shortLabel()
+ * - &lt;YourClass>.get fullLabel()
+ *
+ * You can also override these attributes (optional):
+ * - &lt;YourClass>.constructor()
+ * - &lt;YourClass>.get EditForm()
+ *
+ * You need also to override ServerCondition in another class to describe the server side behavior of your condition.
+ *
+ * Implementation example: see below.
+ * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/time-based-condition/browser.js
+ * @memberof module:Scenarii
+ * @public
+ * @abstract
+ */
+class BrowserCondition {
+  /**
+   * Properties to override in each extending class.
+   * Type properties are supposed to describe the condition type itself (not the instances of that condition type).
+   *
+   * @property {string} name - A unique identifier for your class. Often the class name. Used in logs and for technical reasons.
+   * @property {string} shortLabel - A SHORT description of your condition type. Try to limit to ~25 chars approximately.
+   * @property {string} fullLabel - A full description of your condition type. Will complete the short label, so don't need to repeat the shortLabel inside the fullLabel, just complete. Limit to 2 lines of description.
+   * @public
+   */
+  static type = {
+    name: 'BrowserCondition',
+    shortLabel: 'Basic condition',
+    fullLabel: 'My basic condition'
+  }
+
+  /**
+   * You can override the constructor.
+   * Don't forget to pass data parameter to the super() constructor.
+   *
+   * @public
+   */
+  constructor (data) {
+    this.data = data
+  }
+
+  /**
+   * Returns the name of the condition instance (not the condition type).
+   * The name must be very short (limit to ~25 chars approximately).
+   * It is often the name of the element that is manipulated through the condition.
+   *
+   * eg.: "Room sensor #2", "11:30AM-3:45PM", ...
+   *
+   * @returns {string}
+   * @public
+   */
+  get name () {
+    return 'BrowserConditionInstance'
+  }
+
+  /**
+   * Returns the short label of the condition instance (not the condition type).
+   * The short label must be quite short (limit to ~40 chars approximately).
+   * It is often the short summary of the condition.
+   *
+   * eg.: "'Room sensor #2' opened", "between 11:30AM and 3:45PM everyday"
+   *
+   * @returns {string}
+   * @public
+   */
+  get shortLabel () {
+    return 'Basic condition instance'
+  }
+
+  /**
+   * Returns the long label of the condition instance (not the condition type).
+   * The full label must be concise but fully qualified (limit to a line of description).
+   *
+   * eg.: "the 'Room sensor #2' is in opened state", "the current time is between 11:30AM and 3:45PM, everyday"
+   *
+   * @returns {string}
+   * @public
+   */
+  get fullLabel () {
+    return 'My basic condition instance'
+  }
+
+  /**
+   * Must return the component to use as Setting paneml to set/update the condition instance.
+   * If null, there is no setting panel, the condition instance is created directly.
+   *
+   * @returns {React.Component}
+   * @public
+   */
+  get EditForm () {
+    return null
+  }
+}
+
+export default BrowserCondition
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 23 2019 08:51:30 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

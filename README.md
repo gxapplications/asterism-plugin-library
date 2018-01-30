@@ -13,9 +13,9 @@ like the [asterism-plugin-template](https://github.com/gxapplications/asterism-p
 
 ## Library documentation
 
-The documentation is available [here, as a jsDoc](https://gxapplications.github.io/asterism-plugin-library/asterism-plugin-library/1.0.1/index.html)
+The documentation is available [here, as a jsDoc](https://gxapplications.github.io/asterism-plugin-library/asterism-plugin-library/2.0.0/index.html)
 
 For more documentation about _asterism_, go to the [asterism wiki pages](https://github.com/gxapplications/asterism/wiki/Developer-documentation)
 
 
-:copyright: 2017 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]
+:copyright: 2017-2019 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]

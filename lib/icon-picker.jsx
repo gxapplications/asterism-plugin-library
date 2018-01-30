@@ -132,7 +132,7 @@ const _icons = ['3d_rotation', 'ac_unit', 'access_alarm', 'access_alarms', 'acce
   'sync', 'sync_disabled', 'sync_problem', 'system_update', 'system_update_alt', 'tab', 'tab_unselected', 'tablet',
   'tablet_android', 'tablet_mac', 'tag_faces', 'tap_and_play', 'terrain', 'text_fields', 'text_format', 'textsms',
   'texture', 'theaters', 'thumb_down', 'thumb_up', 'thumbs_up_down', 'time_to_leave', 'timelapse', 'timeline',
-  'timer', 'timer_10', 'timer_3', 'timer_off', 'title', 'toc', 'today', 'toll', 'tonality', 'touch_app', 'toys',
+  'timer', 'timer_10', 'timer_3', 'timer_off', 'title', 'toc', 'today', 'toggle_off', 'toggle_on', 'toll', 'tonality', 'touch_app', 'toys',
   'track_changes', 'traffic', 'train', 'tram', 'transfer_within_a_station', 'transform', 'translate', 'trending_down',
   'trending_flat', 'trending_up', 'tune', 'turned_in', 'turned_in_not', 'tv', 'unarchive', 'undo', 'unfold_less',
   'unfold_more', 'update', 'usb', 'verified_user', 'vertical_align_bottom', 'vertical_align_center',
@@ -145,7 +145,48 @@ const _icons = ['3d_rotation', 'ac_unit', 'access_alarm', 'access_alarms', 'acce
   'wifi_tethering', 'work', 'wrap_text', 'youtube_searched_for', 'zoom_in', 'zoom_out', 'zoom_out_map'
 ]
 
+/**
+* This React component shows an icon picker in a Modal component. The user can find & select a Material icon from the
+* standard library. The selection is passed through onChange attribute execution, as a String.
+*
+*
+* @example <caption>Example of a picker inside a button. Use it in React JSX syntax</caption>
+* <Input
+*     placeholder='My text goes here'
+*     label='My label'
+*     value={title} onChange={this.handleEventChange.bind(this)} className='iconPicker'>
+*   <div>
+*     <IconPicker
+*         theme={theme}
+*         animationLevel={animationLevel}
+*         defaultIcon='zoom_in'
+*         onChange={this.handleValueChange.bind(this)}
+*     />
+*   </div>
+* </Input>
+*
+* @see https://github.com/gxapplications/asterism-plugin-zwave/blob/master/lib/items/wall-plug-setting-panel.jsx
+* @hideconstructor
+* @memberof module:Asterism
+* @public
+*/
 class IconPicker extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultIcon - The icon to preselect when modal opens
+   * @property {func} onChange - Callback used to retrieve choosen icon.
+   * @public
+   */
+  static propTypes = {
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    defaultIcon: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.state = {
@@ -184,12 +225,12 @@ class IconPicker extends React.Component {
         <Button waves={animationLevel >= 2 ? 'light' : null}
           className={cx(theme.actions.inconspicuous, 'truncate fluid')} onClick={this.validate.bind(this)}>
           <Icon left>{icon}</Icon>
-          Pick this one
+          Pick it
         </Button>
       </div>
     )
     return (
-      <Modal id={this._id} header='Pick an icon'
+      <Modal id={this._id} header='Pick an icon' fixedFooter
         modalOptions={{
           inDuration: animationLevel >= 2 ? 300 : 0,
           outDuration: animationLevel >= 2 ? 300 : 0
@@ -197,7 +238,7 @@ class IconPicker extends React.Component {
         actions={modalActions} trigger={triggerButton}>
 
         <Input s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
-          defaultValue={search} onChange={this.search.bind(this)} />
+          defaultValue={search} onChange={this.search.bind(this)} className='iconPickerSearch' />
 
         <div className='iconPickerContent'>
           <div className='iconList'>
@@ -234,13 +275,6 @@ class IconPicker extends React.Component {
     }
     this.setState({ search: q.toLowerCase() })
   }
-}
-
-IconPicker.propTypes = {
-  theme: PropTypes.object.isRequired,
-  animationLevel: PropTypes.number.isRequired,
-  defaultIcon: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
 }
 
 export default IconPicker

@@ -1,15 +1,15 @@
 {
   "name": "asterism-plugin-library",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
   "license": "CC-BY-NC-SA-4.0",
   "scripts": {
-    "dist": "rimraf dist && babel lib --out-dir dist",
-    "doc": "jsdoc --package package.json --readme docs/HOME.md --destination docs/ lib/*",
+    "dist": "rimraf dist && babel lib --comments=false --compact=true --out-dir dist",
+    "doc": "jsdoc --package package.json --readme docs/HOME.md --configure .jsdoc.conf.json --destination docs/ --tutorials docs/tutorials lib/*",
     "lint": "standard --verbose | snazzy",
-    "prepublishOnly": "npm run lint && npm run dist && npm run doc",
+    "prepublishOnly": "npm run lint && npm run dist",
     "validate": "npm ls"
   },
   "main": "dist/index.js",
@@ -29,14 +29,21 @@
     "domotics"
   ],
   "engines": {
-    "node": ">= 7.0.0",
-    "npm": ">= 3.10.8"
+    "node": ">= 8.9.4",
+    "npm": ">= 5.6.0"
   },
   "babel": {
     "presets": [
-      "node7",
-      "es2017-node7/webpack2",
-      "react-es2015"
+      [
+        "env",
+        { "targets": {
+          "chrome": "71"
+        } }
+      ],
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
     ],
     "env": {
       "development": {
@@ -53,7 +60,8 @@
                 ".scss"
               ]
             }
-          ]
+          ],
+          "transform-class-properties"
         ]
       }
     }
@@ -74,20 +82,23 @@
     "uuid": "3.x"
   },
   "peerDependencies": {
+    "classnames": "2.2.x",
     "prop-types": "15.6.x",
-    "react": "15.6.x",
-    "react-materialize": "1.0.x"
+    "react": "16.2.x",
+    "react-materialize": "2.4.x"
   },
   "devDependencies": {
     "babel-cli": "6.26.x",
     "babel-core": "6.26.x",
     "babel-eslint": "6.1.x",
-    "babel-plugin-css-modules-transform": "1.2.x",
-    "babel-preset-es2017-node7": "0.5.x",
-    "babel-preset-node7": "1.5.x",
-    "babel-preset-react-es2015": "1.3.x",
+    "babel-plugin-css-modules-transform": "1.5.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.23.x",
+    "babel-preset-env": "1.6.x",
+    "babel-preset-react": "6.24.x",
     "jsdoc": "3.x",
-    "node-sass": "4.6.x",
+    "jsdoc-react-proptypes": "1.0.x",
+    "node-sass": "4.9.x",
     "precommit-hook": "3.0.0",
     "rimraf": "2.x",
     "snazzy": "7.x",

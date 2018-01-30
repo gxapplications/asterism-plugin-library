@@ -1,0 +1,17 @@
+{
+  "local-storage": {
+    "title": "Global localStorage usage"
+  },
+  "server-storage": {
+    "title": "Global serverStorage usage"
+  },
+  "services": {
+    "title": "Services registry"
+  },
+  "socket": {
+    "title": "Public sockets registry"
+  },
+  "theme": {
+    "title": "Global theme usage"
+  }
+}
