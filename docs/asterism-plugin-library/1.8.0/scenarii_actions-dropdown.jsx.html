@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenarii/actions-dropdown.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenarii/actions-dropdown.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+/* global $ */
+import cx from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Input, Icon } from 'react-materialize'
+
+class ActionsDropdown extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      instances: [],
+      types: [],
+      creatingInstance: null,
+      currentId: props.defaultActionId
+    }
+
+    this._editFormInstance = null
+  }
+
+  componentDidMount () {
+    const service = this.props.scenariiService
+    service.getActionTypes().then((types) => {
+      return service.getActionInstances()
+      .then((instances) => {
+        this.setState({
+          types: types.map((type) => ({
+            id: type.id,
+            type: type.type,
+            onClick: () => {
+              service.createActionInstance(type.id).then((newAction) => {
+                this.setState({
+                  creatingInstance: newAction
+                })
+              })
+            }
+          })),
+          instances
+        })
+      })
+    })
+  }
+
+  componentDidUpdate () {
+    if (this.state.creatingInstance) {
+      $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo('#app')
+      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal({ dismissible: false })
+      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('open')
+    }
+  }
+
+  render () {
+    const { theme, animationLevel, dropdownId, scenariiService } = this.props
+    const { types, instances, creatingInstance, currentId } = this.state
+
+    const EditForm = (creatingInstance &amp;&amp; creatingInstance.EditForm) || null
+
+    return (
+      &lt;div id={`actions-dropdown-modal-anchor-${dropdownId}`}>
+        &lt;Input s={12} label='Action' type='select' icon='error' onChange={this.valueChanged.bind(this)} value={currentId}>
+          {instances.map((instance, idx) => (
+            &lt;option key={instance.instanceId} value={instance.instanceId}>{instance.name}&lt;/option>
+          ))}
+          {types.map(({ id, type, onClick }, idx) => (
+            &lt;option key={type.name} value={id}>+ {type.shortLabel || type.name}&lt;/option>
+          ))}
+        &lt;/Input>
+        {creatingInstance ? (
+          &lt;div id={`actions-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer actions-dropdown-edit-panel', theme.backgrounds.body)}>
+            &lt;div className='modal-content'>
+              &lt;div className={cx('coloring-header', theme.backgrounds.editing)}>
+                &lt;h4>{EditForm.label || 'Action configuration'}&lt;/h4>
+              &lt;/div>
+              &lt;div>
+                &lt;EditForm ref={(c) => { this._editFormInstance = c }}
+                  instance={creatingInstance} scenariiService={scenariiService}
+                  theme={theme} animationLevel={animationLevel}
+                />
+              &lt;/div>
+            &lt;/div>
+            &lt;div className={cx('modal-footer', theme.backgrounds.body)}>
+              &lt;a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
+                'modal-action btn-flat',
+                { 'waves-effect waves-green': animationLevel >= 3 }
+              )}>&lt;Icon left>check&lt;/Icon> Ok&lt;/a>
+
+              &lt;a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
+                'modal-action btn-flat',
+                { 'waves-effect waves-red': animationLevel >= 3 }
+              )}>&lt;Icon left>clear&lt;/Icon> Cancel&lt;/a>
+            &lt;/div>
+          &lt;/div>
+        ) : null}
+      &lt;/div>
+    )
+  }
+
+  valueChanged (event) {
+    const currentId = event.target.value
+    const type = this.state.types.find((type) => type.id === currentId)
+    if (type) {
+      type.onClick()
+    } else {
+      this.setState({ currentId })
+      return this.props.onChange(currentId)
+    }
+  }
+
+  confirmNewInstance (creatingInstance) {
+    this.props.scenariiService.setActionInstance(creatingInstance)
+    .then(() => {
+      const instances = [...this.state.instances, creatingInstance]
+      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
+      $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
+      this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
+      this.props.onChange(creatingInstance.instanceId)
+    })
+  }
+
+  cancelNewInstance (creatingInstance) {
+    $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
+    $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
+    setTimeout(() => {
+      this.setState({
+        creatingInstance: null
+      })
+    }, 250)
+    this._editFormInstance = null
+  }
+}
+
+ActionsDropdown.propTypes = {
+  scenariiService: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+  animationLevel: PropTypes.number.isRequired,
+  defaultActionId: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  dropdownId: PropTypes.string
+}
+
+ActionsDropdown.defaultProps = {
+  defaultActionId: null,
+  dropdownId: '0'
+}
+
+export default ActionsDropdown
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-asterism-plugin-library.html">asterism-plugin-library</a></li></ul><h3>Classes</h3><ul><li><a href="ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="AdditionalItem.html">AdditionalItem</a></li><li><a href="CollectionSetting.html">CollectionSetting</a></li><li><a href="Item.html">Item</a></li></ul><h3>Global</h3><ul><li><a href="global.html#defaultColor">defaultColor</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 23 2018 10:11:40 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

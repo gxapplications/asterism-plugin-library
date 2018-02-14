@@ -12,35 +12,38 @@ import './styles.scss'
 /**
 * This React component shows a switch to choose one of the theme's buttons colors
 * available in the UI default theme.
-* The component should be used in a form to confiugure a button that can accept a color depending
+* The component should be used in a form to configure a button that can accept a color depending
 * on the user's choice.
 *
-* Default color is 'secondary',
-* Available colors are: 'primary', 'secondary', 'inconspicuous'
-* Component properties: {@link ActionColorSwitch.propTypes}.
+* Default color is 'secondary'.
+* Available colors are: 'primary', 'secondary', 'inconspicuous'.
 *
-* @example <caption>Use it in React JSX syntax</caption>
-* <ActionColorSwitch theme={this.props.theme} animationLevel={this.props.animationLevel} defaultColor="primary" onChange={(color) => { this.currentColor = color; }} />
-* @example https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
+* @example <caption>Can use it in React JSX syntax</caption>
+* <ActionColorSwitch
+*     theme={this.props.theme}
+*     animationLevel={this.props.animationLevel}
+*     defaultColor="primary"
+*     onChange={(color) => { this.currentColor = color; }}
+* />
+*
+* @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
 * @hideconstructor
 * @public
 */
 class ActionColorSwitch extends React.Component {
   /**
-  * React properties to use on this component.
-  * @public
-  */
+   * React properties to use on this component.
+   *
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultColor - The default color to set to the component when mounted. By default, will be 'secondary'.
+   * @property {func} onChange - A function called as a callback when the user changes the color. Take color as argument.
+   * @public
+   */
   static propTypes = {
-    /** The asterism theme object. Often available from the parent component, or in the mainState object of a context. */
     theme: PropTypes.object.isRequired,
-    /** The asterism main parameter for visual animatikons. Often available from the parent component, or in the mainState object of a context. */
     animationLevel: PropTypes.number.isRequired,
-    /** The default color to set to the component when mounted. By default, will be 'secondary'. */
     defaultColor: PropTypes.string,
-    /**
-    * A function called as a callback when the user changes the color.
-    * @param {string} color
-    */
     onChange: PropTypes.func.isRequired
   }
 

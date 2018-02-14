@@ -184,7 +184,7 @@ class IconPicker extends React.Component {
         <Button waves={animationLevel >= 2 ? 'light' : null}
           className={cx(theme.actions.inconspicuous, 'truncate fluid')} onClick={this.validate.bind(this)}>
           <Icon left>{icon}</Icon>
-          Pick this one
+          Pick it
         </Button>
       </div>
     )
@@ -197,7 +197,7 @@ class IconPicker extends React.Component {
         actions={modalActions} trigger={triggerButton}>
 
         <Input s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
-          defaultValue={search} onChange={this.search.bind(this)} class='iconPickerSearch' />
+          defaultValue={search} onChange={this.search.bind(this)} className='iconPickerSearch' />
 
         <div className='iconPickerContent'>
           <div className='iconList'>

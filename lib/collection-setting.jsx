@@ -4,7 +4,18 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-/** To desc */
+/**
+* This React component shows a collection of items, most often clickable for edition.
+* At the end of the list, an item càn be added to let add other items.
+*
+* Component properties: {@link CollectionSetting.propTypes}.
+*
+* @example <caption>Use it in React JSX syntax</caption>
+* <CollectionSetting TODO !D />
+* @example https://github.com/gxapplications/asterism/blob/master/lib/ TODO !D
+* @hideconstructor
+* @public
+*/
 class CollectionSetting extends React.Component {
   render () {
     const { animationLevel, list, header, addElement } = this.props
@@ -18,12 +29,12 @@ class CollectionSetting extends React.Component {
           </div>
         ) : null}
         {list.map((el, idx) => (
-          <a key={idx} className={cx('collection-item avatar activator', waves)} href='#!' onClick={el.onClick}>
+          <a key={idx} className={cx('collection-item avatar activator', { [waves]: el.onClick !== undefined })} href='#!' onClick={el.onClick}>
             <i className={cx('material-icons circle activator', el.icon)}>{el.icon || (el.onClick ? 'menu' : '')}</i>
             <span className='title truncate activator'>{el.title}</span>
             {el.details ? (<p className='truncate activator'>{el.details}</p>) : null}
             {el.secondary ? (
-              <div onClick={el.secondary.onClick} className={cx('secondary-content', waves)}>
+              <div onClick={el.secondary.onClick} className={cx('secondary-content', { [waves]: el.secondary.onClick !== undefined })}>
                 <i className='material-icons'>{el.secondary.icon || 'more_vert'}</i>
               </div>
             ) : null}
