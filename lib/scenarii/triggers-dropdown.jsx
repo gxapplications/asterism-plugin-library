@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Input, Icon } from 'react-materialize'
 
-class ActionsDropdown extends React.Component {
+class TriggersDropdown extends React.Component {
   constructor (props) {
     super(props)
 
@@ -16,15 +16,15 @@ class ActionsDropdown extends React.Component {
       instances: [],
       types: [],
       creatingInstance: null,
-      currentId: props.defaultActionId
+      currentId: props.defaultTriggerId
     }
 
     this._editFormInstance = null
   }
 
   componentDidMount () {
-    this.scenariiService.getActionTypes().then((types) => {
-      return this.scenariiService.getActionInstances()
+    this.scenariiService.getTriggerTypes().then((types) => {
+      return this.scenariiService.getTriggerInstances()
       .then((instances) => {
         instances = instances.filter(this.props.instanceFilter)
         this.setState({
@@ -32,12 +32,12 @@ class ActionsDropdown extends React.Component {
             id: type.id,
             type: type.type,
             onClick: () => {
-              this.scenariiService.createActionInstance(type.id).then((newAction) => {
+              this.scenariiService.createTriggerInstance(type.id).then((newTrigger) => {
                 if (this.props.noCreationPanel) {
-                  this.confirmNewInstance(newAction)
+                  this.confirmNewInstance(newTrigger)
                 } else {
                   this.setState({
-                    creatingInstance: newAction
+                    creatingInstance: newTrigger
                   })
                 }
               })
@@ -56,9 +56,9 @@ class ActionsDropdown extends React.Component {
 
   componentDidUpdate () {
     if (this.state.creatingInstance) {
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo('#app')
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal({ dismissible: false })
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('open')
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo('#app')
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal({ dismissible: false })
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('open')
     }
   }
 
@@ -69,7 +69,7 @@ class ActionsDropdown extends React.Component {
     const EditForm = (creatingInstance && creatingInstance.EditForm) || null
 
     return (
-      <div id={`actions-dropdown-modal-anchor-${dropdownId}`}>
+      <div id={`triggers-dropdown-modal-anchor-${dropdownId}`}>
         <Input s={12} label={label} type='select' icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
           {children || []}
           {instances.map((instance, idx) => (
@@ -80,10 +80,10 @@ class ActionsDropdown extends React.Component {
           ))}
         </Input>
         {creatingInstance ? (
-          <div id={`actions-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer actions-dropdown-edit-panel', theme.backgrounds.body)}>
+          <div id={`triggers-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer triggers-dropdown-edit-panel', theme.backgrounds.body)}>
             <div className='modal-content'>
               <div className={cx('coloring-header', theme.backgrounds.editing)}>
-                <h4>{EditForm.label || 'Action configuration'}</h4>
+                <h4>{EditForm.label || 'Trigger configuration'}</h4>
               </div>
               <div>
                 <EditForm ref={(c) => { this._editFormInstance = c }}
@@ -121,19 +121,19 @@ class ActionsDropdown extends React.Component {
   }
 
   confirmNewInstance (creatingInstance) {
-    this.scenariiService.setActionInstance(creatingInstance, this.props.parentIdForNewInstance)
+    this.scenariiService.setTriggerInstance(creatingInstance, this.props.parentIdForNewInstance)
     .then(() => {
       const instances = [...this.state.instances, creatingInstance]
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('close')
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#triggers-dropdown-modal-anchor-${this.props.dropdownId}`)
       this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
       this.props.onChange(creatingInstance.instanceId)
     })
   }
 
   cancelNewInstance (creatingInstance) {
-    $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
-    $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
+    $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('close')
+    $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#triggers-dropdown-modal-anchor-${this.props.dropdownId}`)
     setTimeout(() => {
       this.setState({
         creatingInstance: null
@@ -143,11 +143,11 @@ class ActionsDropdown extends React.Component {
   }
 }
 
-ActionsDropdown.propTypes = {
+TriggersDropdown.propTypes = {
   services: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   animationLevel: PropTypes.number.isRequired,
-  defaultActionId: PropTypes.string,
+  defaultTriggerId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   dropdownId: PropTypes.string,
   parentIdForNewInstance: PropTypes.string,
@@ -158,15 +158,15 @@ ActionsDropdown.propTypes = {
   instanceFilter: PropTypes.func
 }
 
-ActionsDropdown.defaultProps = {
-  defaultActionId: null,
+TriggersDropdown.defaultProps = {
+  defaultTriggerId: null,
   dropdownId: '0',
   parentIdForNewInstance: null,
-  label: 'Action',
-  icon: 'error',
+  label: 'Trigger',
+  icon: 'play_circle_filled',
   noCreationPanel: false,
   typeFilter: () => true,
   instanceFilter: () => true
 }
 
-export default ActionsDropdown
+export default TriggersDropdown

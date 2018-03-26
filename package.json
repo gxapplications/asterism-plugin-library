@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "1.10.7",
+  "version": "1.11.21",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -37,7 +37,9 @@
       "env",
       "react"
     ],
-    "plugins": ["transform-object-rest-spread"],
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
     "env": {
       "development": {
         "plugins": [
@@ -77,14 +79,15 @@
   "peerDependencies": {
     "classnames": "2.2.x",
     "prop-types": "15.6.x",
-    "react": "15.6.x",
-    "react-materialize": "1.0.x"
+    "react": "16.2.x",
+    "react-materialize": "2.4.x"
   },
   "devDependencies": {
     "babel-cli": "6.26.x",
     "babel-core": "6.26.x",
     "babel-eslint": "6.1.x",
     "babel-plugin-css-modules-transform": "1.2.x",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "6.23.x",
     "babel-preset-env": "1.6.x",
     "babel-preset-react": "6.24.x",

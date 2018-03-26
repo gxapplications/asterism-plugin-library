@@ -58,7 +58,7 @@ class StatesDropdown extends React.Component {
   }
 
   render () {
-    const { theme, animationLevel, dropdownId, services } = this.props
+    const { theme, animationLevel, dropdownId, services, children } = this.props
     const { types, instances, creatingInstance, currentId } = this.state
 
     const EditForm = (creatingInstance && creatingInstance.EditForm) || null
@@ -66,8 +66,9 @@ class StatesDropdown extends React.Component {
     return (
       <div id={`states-dropdown-modal-anchor-${dropdownId}`}>
         <Input s={12} label='State' type='select' icon='error' onChange={this.valueChanged.bind(this)} value={currentId}>
+          {children || []}
           {instances.map((instance, idx) => (
-            <option key={instance.instanceId} value={instance.instanceId}>{instance.name}</option>
+            <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>

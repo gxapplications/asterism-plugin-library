@@ -1,11 +1,9 @@
 'use strict'
 
-/* global $ */
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Row, Tab, Tabs } from 'react-materialize'
-import uuid from 'uuid'
+import { Row } from 'react-materialize'
 
 import './styles.scss'
 
@@ -57,34 +55,12 @@ class ActionColorSwitch extends React.Component {
     this.state = {
       color: props.defaultColor
     }
-    this._id = `actionColorSwitch-${uuid.v4()}`
-    this._colors = ['primary', 'secondary', 'inconspicuous']
   }
 
-  componentDidMount () {
-    $(`#${this._id} ul.tabs`).tabs({ onShow: (p) => {
-      $(`#${this._id} ul.tabs > li.tab > a[href^='#']`).each((idx, el) => {
-        if ($(el).attr('href') === p.selector) {
-          this.setState({ color: this._colors[idx] })
-          this.props.onChange(this._colors[idx])
-        }
-      })
-    } })
-
-    const idx = this._colors.indexOf(this.state.color) + 1
-    $(`#${this._id} ul.tabs > li:nth-child(${idx}) > a`).click()
-  }
-
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps) {
     if (prevProps.defaultColor !== this.props.defaultColor) {
       return this.setState({ color: this.props.defaultColor })
     }
-    if (prevState.color === this.state.color) {
-      return
-    }
-
-    const idx = this._colors.indexOf(this.state.color) + 1
-    $(`#${this._id} ul.tabs > li:nth-child(${idx}) > a`).click()
   }
 
   render () {
@@ -92,14 +68,31 @@ class ActionColorSwitch extends React.Component {
     const { theme } = this.props
 
     return (
-      <Row id={this._id} className='card actionColorSwitch noPaddedRow'>
-        <Tabs className='tabs-fixed-width'>
-          <Tab title='Primary' active={color === 'primary'} className={cx(theme.actions.primary, { active: color === 'primary' })} />
-          <Tab title='Secondary' active={color === 'secondary'} className={cx(theme.actions.secondary, { active: color === 'secondary' })} />
-          <Tab title='Neutral' active={color === 'inconspicuous'} className={cx(theme.actions.inconspicuous, { active: color === 'inconspicuous' })} />
-        </Tabs>
+      <Row className='actionColorSwitch'>
+        <button className={cx('col s4 fluid', (color === 'primary') ? 'btn-flat' : 'btn', theme.actions.primary)}
+          onClick={this.selectColor.bind(this, 'primary')}>
+          <i className='material-icons left'>{color === 'primary' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
+          Primary
+        </button>
+        <button className={cx('col s4 fluid', (color === 'secondary') ? 'btn-flat' : 'btn', theme.actions.secondary)}
+          onClick={this.selectColor.bind(this, 'secondary')}>
+          <i className='material-icons left'>{color === 'secondary' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
+          Secondary
+        </button>
+        <button className={cx('col s4 fluid', (color === 'inconspicuous') ? 'btn-flat' : 'btn', theme.actions.inconspicuous)}
+          onClick={this.selectColor.bind(this, 'inconspicuous')}>
+          <i className='material-icons left'>{color === 'inconspicuous' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
+          Neutral
+        </button>
       </Row>
     )
+  }
+
+  selectColor (color) {
+    this.setState({
+      color
+    })
+    this.props.onChange(color)
   }
 }
 

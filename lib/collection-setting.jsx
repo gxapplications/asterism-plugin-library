@@ -35,7 +35,7 @@ class CollectionSetting extends React.Component {
             {el.details ? (<p className='truncate activator'>{el.details}</p>) : null}
             {el.secondary ? (
               <div onClick={el.secondary.onClick} className={cx('secondary-content', { [waves]: el.secondary.onClick !== undefined })}>
-                <i className='material-icons'>{el.secondary.icon || 'more_vert'}</i>
+                <i className={cx('material-icons', el.secondary.icon)}>{el.secondary.icon || 'more_vert'}</i>
               </div>
             ) : null}
           </a>
