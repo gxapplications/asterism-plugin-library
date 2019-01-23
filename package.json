@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.0.0",
+  "version": "2.1.9",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -34,12 +34,7 @@
   },
   "babel": {
     "presets": [
-      [
-        "env",
-        { "targets": {
-          "chrome": "71"
-        } }
-      ],
+      "env",
       "react"
     ],
     "plugins": [
@@ -79,13 +74,14 @@
     "lint"
   ],
   "dependencies": {
+    "patternlock": "2.0.2",
     "uuid": "3.x"
   },
   "peerDependencies": {
     "classnames": "2.2.x",
     "prop-types": "15.6.x",
     "react": "16.2.x",
-    "react-materialize": "2.4.x"
+    "react-materialize": "3.3.3"
   },
   "devDependencies": {
     "babel-cli": "6.26.x",
