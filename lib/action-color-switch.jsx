@@ -26,6 +26,7 @@ import './styles.scss'
 *
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
 * @hideconstructor
+* @memberof module:asterism-plugin-library
 * @public
 */
 class ActionColorSwitch extends React.Component {
@@ -34,7 +35,7 @@ class ActionColorSwitch extends React.Component {
    *
    * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
    * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
-   * @property {string} defaultColor - The default color to set to the component when mounted. By default, will be 'secondary'.
+   * @property {string} defaultColor - The default color to set to the component when mounted. By default, will be "secondary".
    * @property {func} onChange - A function called as a callback when the user changes the color. Take color as argument.
    * @public
    */
@@ -45,8 +46,12 @@ class ActionColorSwitch extends React.Component {
     onChange: PropTypes.func.isRequired
   }
 
+  /**
+   * Default properties values.
+   * @property {string} defaultColor - "secondary"
+   * @public
+   */
   static defaultProps = {
-    /** @default {ActionColorSwitch.propTypes.defaultColor} */
     defaultColor: 'secondary'
   }
 

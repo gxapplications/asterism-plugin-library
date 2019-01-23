@@ -6,7 +6,62 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Input, Icon } from 'react-materialize'
 
+/**
+ * This React component shows a dropdown with available scenarii elements of 'state' type.
+ * This is use to choose an existing state (that is public, so not inside another scenarii element like a procedure)
+ * or to create a new one on the fly (optional).
+ * You can filter states you want with a type filter as a callback, select default element, etc...
+ *
+ * @example <caption>Example of an StatesDropdown. Use it in React JSX syntax</caption>
+ * <StatesDropdown defaultStateId={this.state.stateId} onChange={this.stateChanged.bind(this)}
+ *   theme={theme} animationLevel={animationLevel} services={services} />
+ *
+ * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/level-state-changer/edit-form.jsx#L76
+ * @hideconstructor
+ * @memberof module:asterism-plugin-library/scenarii
+ * @public
+ */
 class StatesDropdown extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} services - The asterism services object. Often available from the parent component, or in the mainState object of a context.
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultStateId - The state ID to pre-select at initialization.
+   * @property {function} onChange - A callback when the user made a choice (in case of "new state" choice, called only after the element creation).
+   * @property {string} dropdownId - An ID, just in order to be able to make a dom query on it...
+   * @property {function} typeFilter - A filter to choose what type of new states can be created from the dropdown.
+   * @property {function} instanceFilter - A filter to choose what existing public states should be listed in the dropdown.
+   * @public
+   */
+  static propTypes = {
+    services: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    defaultStateId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    dropdownId: PropTypes.string,
+    typeFilter: PropTypes.func,
+    instanceFilter: PropTypes.func
+  }
+
+  /**
+   * Default properties values.
+   *
+   * @property {string} defaultStateId - null (no selection, the first item will be selected at display time).
+   * @property {string} dropdownId - '0' by default, to override if you need to query its DOM element.
+   * @property {function} typeFilter - () => true (allows all types).
+   * @property {function} instanceFilter - () => true (allows all existing public states).
+   * @public
+   */
+  static defaultProps = {
+    defaultStateId: null,
+    dropdownId: '0',
+    typeFilter: () => true,
+    instanceFilter: () => true
+  }
+
   constructor (props) {
     super(props)
 
@@ -26,8 +81,10 @@ class StatesDropdown extends React.Component {
     this.scenariiService.getStateTypes().then((types) => {
       return this.scenariiService.getStateInstances()
       .then((instances) => {
+        instances = instances.filter(this.props.instanceFilter)
+
         this.setState({
-          types: types.map((type) => ({
+          types: types.filter(this.props.typeFilter).map((type) => ({
             id: type.id,
             type: type.type,
             onClick: () => {
@@ -41,7 +98,7 @@ class StatesDropdown extends React.Component {
           instances
         })
 
-        if (instances.length >= 1 && !this.state.currentId) {
+        if (instances.length >= 1 && !this.state.currentId && (!this.props.children || this.props.children.length === 0)) {
           this.setState({ currentId: instances[0].instanceId })
           this.props.onChange(instances[0].instanceId)
         }
@@ -136,20 +193,6 @@ class StatesDropdown extends React.Component {
     }, 250)
     this._editFormInstance = null
   }
-}
-
-StatesDropdown.propTypes = {
-  services: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired,
-  animationLevel: PropTypes.number.isRequired,
-  defaultStateId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  dropdownId: PropTypes.string
-}
-
-StatesDropdown.defaultProps = {
-  defaultStateId: null,
-  dropdownId: '0'
 }
 
 export default StatesDropdown

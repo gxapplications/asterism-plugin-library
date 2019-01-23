@@ -6,7 +6,78 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Input, Icon } from 'react-materialize'
 
+/**
+ * This React component shows a dropdown with available scenarii elements of 'action' type.
+ * This is use to choose an existing action (that is public, so not inside another scenarii element like a procedure)
+ * or to create a new one on the fly (optional).
+ * You can filter actions you want with a type filter as a callback, select default element, etc...
+ *
+ * @example <caption>Example of an ActionDropdown. Use it in React JSX syntax</caption>
+ * <ActionsDropdown defaultActionId={this.state.actionId} onChange={this.actionChanged.bind(this)}
+ *   theme={theme} animationLevel={animationLevel} services={services} />
+ *
+ * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/action-aborter/edit-form.jsx#L32
+ * @hideconstructor
+ * @memberof module:asterism-plugin-library/scenarii
+ * @public
+ */
 class ActionsDropdown extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} services - The asterism services object. Often available from the parent component, or in the mainState object of a context.
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultActionId - The action ID to pre-select at initialization.
+   * @property {function} onChange - A callback when the user made a choice (in case of "new action" choice, called only after the element creation).
+   * @property {string} dropdownId - An ID, just in order to be able to make a dom query on it...
+   * @property {string} parentIdForNewInstance - Optional parent ID element for creation of a "new action" case. In that case, the new element will not appear in the main action list! None by default.
+   * @property {string} label - The label to put above the input, in the user interface.
+   * @property {string} icon - The icon to put on the left of the input, in the user interface.
+   * @property {boolean} noCreationPanel - True to avoid opening a popin (a modal frame with settings of the new element). False by default.
+   * @property {function} typeFilter - A filter to choose what type of new actions can be created from the dropdown.
+   * @property {function} instanceFilter - A filter to choose what existing public actions should be listed in the dropdown.
+   * @public
+   */
+  static propTypes = {
+    services: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    defaultActionId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    dropdownId: PropTypes.string,
+    parentIdForNewInstance: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.string,
+    noCreationPanel: PropTypes.bool,
+    typeFilter: PropTypes.func,
+    instanceFilter: PropTypes.func
+  }
+
+  /**
+   * Default properties values.
+   *
+   * @property {string} defaultActionId - null (no selection, the first item will be selected at display time).
+   * @property {string} dropdownId - '0' by default, to override if you need to query its DOM element.
+   * @property {string} parentIdForNewInstance - null by default (so, public element shown in the actions list).
+   * @property {string} label - 'Action'.
+   * @property {string} icon - 'error' (default icon for actions).
+   * @property {boolean} noCreationPanel - false (allows creation panel).
+   * @property {function} typeFilter - () => true (allows all types).
+   * @property {function} instanceFilter - () => true (allows all existing public actions).
+   * @public
+   */
+  static defaultProps = {
+    defaultActionId: null,
+    dropdownId: '0',
+    parentIdForNewInstance: null,
+    label: 'Action',
+    icon: 'error',
+    noCreationPanel: false,
+    typeFilter: () => true,
+    instanceFilter: () => true
+  }
+
   constructor (props) {
     super(props)
 
@@ -141,32 +212,6 @@ class ActionsDropdown extends React.Component {
     }, 250)
     this._editFormInstance = null
   }
-}
-
-ActionsDropdown.propTypes = {
-  services: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired,
-  animationLevel: PropTypes.number.isRequired,
-  defaultActionId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  dropdownId: PropTypes.string,
-  parentIdForNewInstance: PropTypes.string,
-  label: PropTypes.string,
-  icon: PropTypes.string,
-  noCreationPanel: PropTypes.bool,
-  typeFilter: PropTypes.func,
-  instanceFilter: PropTypes.func
-}
-
-ActionsDropdown.defaultProps = {
-  defaultActionId: null,
-  dropdownId: '0',
-  parentIdForNewInstance: null,
-  label: 'Action',
-  icon: 'error',
-  noCreationPanel: false,
-  typeFilter: () => true,
-  instanceFilter: () => true
 }
 
 export default ActionsDropdown

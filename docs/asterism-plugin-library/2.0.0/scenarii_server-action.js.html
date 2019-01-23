@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenarii/server-action.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenarii/server-action.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+/**
+ * The ServerAction is the class you need to override to describe the behavior of you scenarii element (type action)
+ * on the server side. A scenarii action element will be instantiated through this extending class on the server side.
+ *
+ * In your extending class, you MUST override these attributes:
+ * - &lt;YourClass>.get name()
+ * - &lt;YourClass>.execute()
+ *
+ * You can also override these attributes (optional):
+ * - &lt;YourClass>.constructor()
+ * - &lt;YourClass>.abort()
+ *
+ * You need also to override BrowserAction in another class to describe the browser side behavior of your action.
+ *
+ * Implementation example: see below.
+ * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/wait/server.js
+ * @memberof module:asterism-plugin-library/scenarii
+ * @public
+ * @abstract
+ */
+class ServerAction {
+  /**
+   * You can override the constructor.
+   * Don't forget to pass data parameter to the super() constructor.
+   *
+   * @public
+   */
+  constructor (data) {
+    this.data = data
+
+    this.executionIds = {}
+  }
+
+  /**
+   * Returns the name of the action instance (not the action type).
+   * The name must be very short (limit to ~25 chars approximately).
+   * It is often the name of the element that is manipulated through the action.
+   *
+   * eg.: "Room light #2"
+   *
+   * @returns {string}
+   * @public
+   */
+  get name () {
+    return 'ServerAction'
+  }
+
+  /**
+   * This method will execute the current action instance process. It returns a Promise that will resolve after the execution.
+   * This could take a while.
+   *
+   * @param {string} executionId - A unique execution ID, to keep on your side (to track its execution or to abort it if needed).
+   * @returns {Promise} - A promise, resolving when action finished (successfully: resolve, faulty: reject).
+   * @public
+   */
+  execute (executionId) {
+    const action = Promise.resolve(true)
+    this.executionIds[executionId] = action
+    return action.then(() => { delete this.executionIds[executionId] }).catch(() => { delete this.executionIds[executionId] })
+  }
+
+  /**
+   * This method will abort the current action instance execution. It returns a Promise that will resolve after abort.
+   * Abort support is optional, most of the time not supported, especially for actions with quick executions.
+   * For example a "wait and do something" action should support abort, while a log action is not long enough to be abortable...
+   *
+   * @param executionId - A unique execution ID, used with this.execute() to abort.
+   * @returns {Promise} - A promise resolving when abort is done. If the action type is not abortable, the action will finish anyway, and the returned Promise will resolve. If the execution was already stopped (finished or already aborted), the returned promise will reject.
+   * @public
+   */
+  abort (executionId) {
+    // See comments in devtools log action for example of an abortable action
+    return Promise.resolve(true)
+  }
+
+  /**
+   * This method will try to abort each action instance execution in progress, of the current specific action type.
+   *
+   * @returns {Promise} - A promise resolving when all abort are done.
+   * @public
+   */
+  abortAll () {
+    const ids = Object.entries(this.executionIds).map(([executionId, v]) => executionId)
+    return Promise.all(ids.map(executionId => ({ executionId, promise: this.abort(executionId) })))
+    .then(results => {
+      return { executionIds: results.map(r => r.executionId), result: results.reduce((acc, res) => acc &amp; res, true) }
+    }) // at least one false must give false
+  }
+}
+
+export default ServerAction
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-asterism-plugin-library.html">asterism-plugin-library</a></li><li><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-asterism-plugin-library.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-asterism-plugin-library.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-asterism-plugin-library.IconPicker.html">IconPicker</a></li><li><a href="module-asterism-plugin-library.Item.html">Item</a></li><li><a href="module-asterism-plugin-library.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-asterism-plugin-library.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-asterism-plugin-library.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-asterism-plugin-library_scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerState.html">ServerState</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 16:59:56 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

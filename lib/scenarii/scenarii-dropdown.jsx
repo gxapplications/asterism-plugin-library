@@ -6,7 +6,77 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { Input, Icon } from 'react-materialize'
 
+/**
+ * This React component shows a dropdown with available scenarii elements of 'scenario' type.
+ * This is use to choose an existing scenario (that is public, so not inside another scenarii element like a procedure)
+ * or to create a new one on the fly (optional).
+ * You can filter scenarii you want with a type filter as a callback, select default element, etc...
+ *
+ * @example <caption>Example of an ScenariiDropdown. Use it in React JSX syntax</caption>
+ * <ScenariiDropdown defaultScenarioId={this.state.scenarioId} onChange={this.scenarioChanged.bind(this)}
+ *   theme={theme} animationLevel={animationLevel} services={services} />
+ *
+ * @hideconstructor
+ * @memberof module:asterism-plugin-library/scenarii
+ * @public
+ */
 class ScenariiDropdown extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} services - The asterism services object. Often available from the parent component, or in the mainState object of a context.
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultScenarioId - The scenario ID to pre-select at initialization.
+   * @property {function} onChange - A callback when the user made a choice (in case of "new action" choice, called only after the element creation).
+   * @property {string} dropdownId - An ID, just in order to be able to make a dom query on it...
+   * @property {string} parentIdForNewInstance - Optional parent ID element for creation of a "new scenario" case. In that case, the new element will not appear in the main scenario list! None by default.
+   * @property {string} label - The label to put above the input, in the user interface.
+   * @property {string} icon - The icon to put on the left of the input, in the user interface.
+   * @property {boolean} noCreationPanel - True to avoid opening a popin (a modal frame with settings of the new element). False by default.
+   * @property {function} typeFilter - A filter to choose what type of new scenarii can be created from the dropdown.
+   * @property {function} instanceFilter - A filter to choose what existing public scenarii should be listed in the dropdown.
+   * @public
+   */
+  static propTypes = {
+    services: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    defaultScenarioId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    dropdownId: PropTypes.string,
+    parentIdForNewInstance: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.string,
+    noCreationPanel: PropTypes.bool,
+    typeFilter: PropTypes.func,
+    instanceFilter: PropTypes.func
+  }
+
+  /**
+   * Default properties values.
+   *
+   * @property {string} defaultScenarioId - null (no selection, the first item will be selected at display time).
+   * @property {string} dropdownId - '0' by default, to override if you need to query its DOM element.
+   * @property {string} parentIdForNewInstance - null by default (so, public element shown in the actions list).
+   * @property {string} label - 'Scenario'.
+   * @property {string} icon - 'offline_pin' (default icon for scenarii).
+   * @property {boolean} noCreationPanel - false (allows creation panel).
+   * @property {function} typeFilter - () => true (allows all types).
+   * @property {function} instanceFilter - () => true (allows all existing public scenarii).
+   * @public
+   */
+  static defaultProps = {
+    defaultScenarioId: null,
+    dropdownId: '0',
+    parentIdForNewInstance: null,
+    label: 'Scenario',
+    icon: 'offline_pin',
+    noCreationPanel: true,
+    typeFilter: () => false,
+    instanceFilter: () => true
+  }
+
   constructor (props) {
     super(props)
 
@@ -141,32 +211,6 @@ class ScenariiDropdown extends React.Component {
     }, 250)
     this._editFormInstance = null
   }
-}
-
-ScenariiDropdown.propTypes = {
-  services: PropTypes.func.isRequired,
-  theme: PropTypes.object.isRequired,
-  animationLevel: PropTypes.number.isRequired,
-  defaultScenarioId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  dropdownId: PropTypes.string,
-  parentIdForNewInstance: PropTypes.string,
-  label: PropTypes.string,
-  icon: PropTypes.string,
-  noCreationPanel: PropTypes.bool,
-  typeFilter: PropTypes.func,
-  instanceFilter: PropTypes.func
-}
-
-ScenariiDropdown.defaultProps = {
-  defaultScenarioId: null,
-  dropdownId: '0',
-  parentIdForNewInstance: null,
-  label: 'Scenario',
-  icon: 'offline_pin',
-  noCreationPanel: true,
-  typeFilter: () => false,
-  instanceFilter: () => true
 }
 
 export default ScenariiDropdown

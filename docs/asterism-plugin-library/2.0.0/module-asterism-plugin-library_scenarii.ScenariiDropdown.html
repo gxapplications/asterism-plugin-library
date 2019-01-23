@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: ScenariiDropdown</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: ScenariiDropdown</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a>.</span>ScenariiDropdown</h2>
+        
+            <div class="class-description"><p>This React component shows a dropdown with available scenarii elements of 'scenario' type.
+This is use to choose an existing scenario (that is public, so not inside another scenarii element like a procedure)
+or to create a new one on the fly (optional).
+You can filter scenarii you want with a type filter as a callback, select default element, etc...</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Example of an ScenariiDropdown. Use it in React JSX syntax</p>
+    
+    <pre class="prettyprint"><code>&lt;ScenariiDropdown defaultScenarioId={this.state.scenarioId} onChange={this.scenarioChanged.bind(this)}
+  theme={theme} animationLevel={animationLevel} services={services} /></code></pre>
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="defaultProps"><span class="type-signature"></span>defaultProps<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Default properties values.</p>
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>defaultScenarioId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>null (no selection, the first item will be selected at display time).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dropdownId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'0' by default, to override if you need to query its DOM element.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parentIdForNewInstance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>null by default (so, public element shown in the actions list).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'Scenario'.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>icon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>'offline_pin' (default icon for scenarii).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noCreationPanel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>false (allows creation panel).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>typeFilter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>() =&gt; true (allows all types).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instanceFilter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>() =&gt; true (allows all existing public scenarii).</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line69">line 69</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="propTypes"><span class="type-signature"></span>propTypes<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>React properties to use on this component.</p>
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>services</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The asterism services object. Often available from the parent component, or in the mainState object of a context.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theme</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The asterism theme object. Often available from the parent component, or in the mainState object of a context.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>animationLevel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>defaultScenarioId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The scenario ID to pre-select at initialization.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onChange</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A callback when the user made a choice (in case of &quot;new action&quot; choice, called only after the element creation).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dropdownId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An ID, just in order to be able to make a dom query on it...</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parentIdForNewInstance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional parent ID element for creation of a &quot;new scenario&quot; case. In that case, the new element will not appear in the main scenario list! None by default.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The label to put above the input, in the user interface.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>icon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The icon to put on the left of the input, in the user interface.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noCreationPanel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>True to avoid opening a popin (a modal frame with settings of the new element). False by default.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>typeFilter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A filter to choose what type of new scenarii can be created from the dropdown.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>instanceFilter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A filter to choose what existing public scenarii should be listed in the dropdown.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-asterism-plugin-library.html">asterism-plugin-library</a></li><li><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-asterism-plugin-library.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-asterism-plugin-library.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-asterism-plugin-library.IconPicker.html">IconPicker</a></li><li><a href="module-asterism-plugin-library.Item.html">Item</a></li><li><a href="module-asterism-plugin-library.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-asterism-plugin-library.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-asterism-plugin-library.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-asterism-plugin-library_scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerState.html">ServerState</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 16:59:56 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenarii/triggers-dropdown.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenarii/triggers-dropdown.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+/* global $ */
+import cx from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Input, Icon } from 'react-materialize'
+
+/**
+ * This React component shows a dropdown with available scenarii elements of 'trigger' type.
+ * This is use to choose an existing trigger (that is public, so not inside another scenarii element like a procedure)
+ * or to create a new one on the fly (optional).
+ * You can filter triggers you want with a type filter as a callback, select default element, etc...
+ *
+ * @example &lt;caption>Example of an TriggersDropdown. Use it in React JSX syntax&lt;/caption>
+ * &lt;TriggersDropdown defaultTriggerId={this.state.triggerId} onChange={this.triggerChanged.bind(this)}
+ *   theme={theme} animationLevel={animationLevel} services={services} />
+ *
+ * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/actionable-scenario/edit-form.jsx#L63
+ * @hideconstructor
+ * @memberof module:asterism-plugin-library/scenarii
+ * @public
+ */
+class TriggersDropdown extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} services - The asterism services object. Often available from the parent component, or in the mainState object of a context.
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {string} defaultTriggerId - The trigger ID to pre-select at initialization.
+   * @property {function} onChange - A callback when the user made a choice (in case of "new trigger" choice, called only after the element creation).
+   * @property {string} dropdownId - An ID, just in order to be able to make a dom query on it...
+   * @property {string} parentIdForNewInstance - Optional parent ID element for creation of a "new trigger" case. In that case, the new element will not appear in the main trigger list! None by default.
+   * @property {string} label - The label to put above the input, in the user interface.
+   * @property {string} icon - The icon to put on the left of the input, in the user interface.
+   * @property {boolean} noCreationPanel - True to avoid opening a popin (a modal frame with settings of the new element). False by default.
+   * @property {function} typeFilter - A filter to choose what type of new triggers can be created from the dropdown.
+   * @property {function} instanceFilter - A filter to choose what existing public triggers should be listed in the dropdown.
+   * @public
+   */
+  static propTypes = {
+    services: PropTypes.func.isRequired,
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    defaultTriggerId: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    dropdownId: PropTypes.string,
+    parentIdForNewInstance: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.string,
+    noCreationPanel: PropTypes.bool,
+    typeFilter: PropTypes.func,
+    instanceFilter: PropTypes.func
+  }
+
+  /**
+   * Default properties values.
+   *
+   * @property {string} defaultTriggerId - null (no selection, the first item will be selected at display time).
+   * @property {string} dropdownId - '0' by default, to override if you need to query its DOM element.
+   * @property {string} parentIdForNewInstance - null by default (so, public element shown in the triggers list).
+   * @property {string} label - 'Trigger'.
+   * @property {string} icon - 'play_circle_filled' (default icon for triggers).
+   * @property {boolean} noCreationPanel - false (allows creation panel).
+   * @property {function} typeFilter - () => true (allows all types).
+   * @property {function} instanceFilter - () => true (allows all existing public triggers).
+   * @public
+   */
+  static defaultProps = {
+    defaultTriggerId: null,
+    dropdownId: '0',
+    parentIdForNewInstance: null,
+    label: 'Trigger',
+    icon: 'play_circle_filled',
+    noCreationPanel: false,
+    typeFilter: () => true,
+    instanceFilter: () => true
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.scenariiService = props.services()['asterism-scenarii']
+
+    this.state = {
+      instances: [],
+      types: [],
+      creatingInstance: null,
+      currentId: props.defaultTriggerId
+    }
+
+    this._editFormInstance = null
+  }
+
+  componentDidMount () {
+    this.scenariiService.getTriggerTypes().then((types) => {
+      return this.scenariiService.getTriggerInstances()
+      .then((instances) => {
+        instances = instances.filter(this.props.instanceFilter)
+        this.setState({
+          types: types.filter(this.props.typeFilter).map((type) => ({
+            id: type.id,
+            type: type.type,
+            onClick: () => {
+              this.scenariiService.createTriggerInstance(type.id).then((newTrigger) => {
+                if (this.props.noCreationPanel) {
+                  this.confirmNewInstance(newTrigger)
+                } else {
+                  this.setState({
+                    creatingInstance: newTrigger
+                  })
+                }
+              })
+            }
+          })),
+          instances
+        })
+
+        if (instances.length >= 1 &amp;&amp; !this.state.currentId &amp;&amp; !this.props.noCreationPanel) {
+          this.setState({ currentId: instances[0].instanceId })
+          this.props.onChange(instances[0].instanceId)
+        }
+      })
+    })
+  }
+
+  componentDidUpdate () {
+    if (this.state.creatingInstance) {
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo('#app')
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal({ dismissible: false })
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('open')
+    }
+  }
+
+  render () {
+    const { theme, animationLevel, dropdownId, services, label, icon, children } = this.props
+    const { types, instances, creatingInstance, currentId } = this.state
+
+    const EditForm = (creatingInstance &amp;&amp; creatingInstance.EditForm) || null
+
+    return (
+      &lt;div id={`triggers-dropdown-modal-anchor-${dropdownId}`}>
+        &lt;Input s={12} label={label} type='select' icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
+          {children || []}
+          {instances.map((instance, idx) => (
+            &lt;option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}&lt;/option>
+          ))}
+          {types.map(({ id, type, onClick }, idx) => (
+            &lt;option key={type.name} value={id}>+ {type.shortLabel || type.name}&lt;/option>
+          ))}
+        &lt;/Input>
+        {creatingInstance ? (
+          &lt;div id={`triggers-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer triggers-dropdown-edit-panel', theme.backgrounds.body)}>
+            &lt;div className='modal-content'>
+              &lt;div className={cx('coloring-header', theme.backgrounds.editing)}>
+                &lt;h4>{EditForm.label || 'Trigger configuration'}&lt;/h4>
+              &lt;/div>
+              &lt;div>
+                &lt;EditForm ref={(c) => { this._editFormInstance = c }}
+                  instance={creatingInstance} services={services}
+                  theme={theme} animationLevel={animationLevel}
+                />
+              &lt;/div>
+            &lt;/div>
+            &lt;div className={cx('modal-footer', theme.backgrounds.body)}>
+              &lt;a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
+                'modal-action btn-flat',
+                { 'waves-effect waves-green': animationLevel >= 3 }
+              )}>&lt;Icon left>check&lt;/Icon> Ok&lt;/a>
+
+              &lt;a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
+                'modal-action btn-flat',
+                { 'waves-effect waves-red': animationLevel >= 3 }
+              )}>&lt;Icon left>clear&lt;/Icon> Cancel&lt;/a>
+            &lt;/div>
+          &lt;/div>
+        ) : null}
+      &lt;/div>
+    )
+  }
+
+  valueChanged (event) {
+    const currentId = event.target.value
+    const type = this.state.types.find((type) => type.id === currentId)
+    if (type) {
+      type.onClick()
+    } else {
+      this.setState({ currentId })
+      return this.props.onChange(currentId)
+    }
+  }
+
+  confirmNewInstance (creatingInstance) {
+    this.scenariiService.setTriggerInstance(creatingInstance, this.props.parentIdForNewInstance)
+    .then(() => {
+      const instances = [...this.state.instances, creatingInstance]
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('close')
+      $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#triggers-dropdown-modal-anchor-${this.props.dropdownId}`)
+      this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
+      this.props.onChange(creatingInstance.instanceId)
+    })
+  }
+
+  cancelNewInstance (creatingInstance) {
+    $(`#triggers-dropdown-modal-${this.props.dropdownId}`).modal('close')
+    $(`#triggers-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#triggers-dropdown-modal-anchor-${this.props.dropdownId}`)
+    setTimeout(() => {
+      this.setState({
+        creatingInstance: null
+      })
+    }, 250)
+    this._editFormInstance = null
+  }
+}
+
+export default TriggersDropdown
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-asterism-plugin-library.html">asterism-plugin-library</a></li><li><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-asterism-plugin-library.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-asterism-plugin-library.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-asterism-plugin-library.IconPicker.html">IconPicker</a></li><li><a href="module-asterism-plugin-library.Item.html">Item</a></li><li><a href="module-asterism-plugin-library.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-asterism-plugin-library.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-asterism-plugin-library.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-asterism-plugin-library_scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerState.html">ServerState</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 16:59:56 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

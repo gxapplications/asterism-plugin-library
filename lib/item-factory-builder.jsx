@@ -4,6 +4,7 @@ import React from 'react'
 
 import AdditionalItem from './additional-item'
 
+/** @private */
 class BasicItemFactory {
   constructor ({ localStorage, serverStorage, mainState, theme, privateSocket, publicSockets, services }) {
     this.context = { localStorage, serverStorage, mainState, theme, privateSocket, publicSockets, services }
@@ -48,6 +49,7 @@ class BasicItemFactory {
   }
 }
 
+/** @private */
 class ItemLinker {
   receiveItemSettingPanel (itemSettingPanel) {
     this.itemSettingPanel = itemSettingPanel
@@ -64,6 +66,42 @@ class ItemLinker {
   }
 }
 
+/**
+* This class is instantiated through an itemFactoryBuilder, to add an item type with all its attributes and caracteristics.
+*
+* This builder is given by the following method, as example:
+* const itemTypeBuilder = new ItemFactoryBuilder().newItemType('item_type_id', AdditionalItem.categories.DOMOTICS)
+*
+* You can chain methods to complete your item type description and characteristics.
+* Once you chained all needed methods to build you item type, call .build() method to register it in _asterism_.
+*
+* Mandatory attributes/calls:
+* - id and category (through the ItemFactoryBuilder().newItemType(id, category) method),
+* - title (through .withDescription(title, text)),
+* - if you need to call .settingPanelWithHeader() - optional - do it before both below methods,
+* - either .newInstanceWithoutInitialSetting() XOR newInstanceFromInitialSetting() must be called,
+* - ItemClass and SettingPanelClass (through .existingInstance(ItemClass, SettingPanelClass))
+* - .acceptDimensions() must add at least one dimension.
+*
+* @example
+* const builder = new ItemFactoryBuilder()
+* .newItemType('unique_item_type_id', AdditionalItem.categories.DOMOTICS)
+*   .withDescription('Great Item')
+*   .settingPanelWithHeader('Great Item settings', 'touch_app') // optional override, but always before *Instance*() calls...
+*   .newInstanceFromInitialSetting(1, 2, GreatItemSettingPanel)
+*   .existingInstance(GreatItem, GreatItemSettingPanel)
+*   .acceptDimensions([
+*     { w: 2, h: 1 },
+*     { w: 1, h: 2 }
+*   ])
+*   .build()
+* .newItemType(... // You can chain multiple item types
+*
+*
+* @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx
+* @memberof module:asterism-plugin-library
+* @public
+*/
 class ItemTypeBuilder {
   constructor (itemFactoryBuilder, id, category) {
     this.itemFactoryBuilder = itemFactoryBuilder
@@ -84,12 +122,33 @@ class ItemTypeBuilder {
     this.dimensions = []
   }
 
+  /**
+   * Adds a mandatory title (in English) and an optional description text (recommended)
+   *
+   * @param {string} title - Mandatory title, in English. Please keep it really short. Not much place to display it.
+   * @param {string} text - The optional description to complete your item title with a small explanation of the item type purpose. 1 or 2 lines.
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   withDescription (title, text) {
     this.title = title
-    this.description = text
+    this.description = text || ''
     return this
   }
 
+  /**
+   * Use this if you can instantiate an item without displaying a settings panel before. In other words, if an item instance
+   * can have default params values (that should be kept in default state most of the time) then you don't need to show settings
+   * panel at creation: the settings panel will be available after creation, to update the item if needed.
+   *
+   * @param {class} ItemClass - The class to use to instantiate the item. It's a class extending Item class, often in a .jsx format.
+   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 3.
+   * @param {integer} preferredWidth - The default width of the new item instance on the dashboard. From 1 to 3.
+   * @param {class} SettingPanelClass - The class of setting panel to use to update item params. Extending ItemSettingPanel class, often in a .jsx format.
+   * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/action-button/item.jsx
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   newInstanceWithoutInitialSetting (ItemClass, preferredHeight, preferredWidth, SettingPanelClass) {
     if (this.newInstance) {
       throw new Error('You cannot call newInstance*() multiple times.')
@@ -112,6 +171,17 @@ class ItemTypeBuilder {
     return this
   }
 
+  /**
+   * Use this instead of .newInstanceWithoutInitialSetting() if you need to show setting panel before to be able to instantiate item.
+   * The given panel will open, and after its .next() call, will close to create the new item. This solution is recommended when you need params from
+   * the user that you cannot give by default (and then cannot create an item without them).
+   *
+   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 3.
+   * @param {integer} preferredWidth - The default width of the new item instance on the dashboard. From 1 to 3.
+   * @param {class} SettingPanelClass - The class of setting panel to use to set initial item params. Extending ItemSettingPanel class, often in a .jsx format.
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   newInstanceFromInitialSetting (preferredHeight, preferredWidth, SettingPanelClass) {
     if (this.newInstance) {
       throw new Error('You cannot call newInstance*() multiple times.')
@@ -128,9 +198,17 @@ class ItemTypeBuilder {
     return this
   }
 
+  /**
+   * Adds mandatory behavior to the builder to indicate ItemClass and SettingPanelClass for existing items (when we need to restore them at refresh)
+   *
+   * @param {class} ItemClass - The class to use to instantiate the item. It's a class extending Item class, often in a .jsx format.
+   * @param {class} SettingPanelClass - The class of setting panel to use to update item params. Extending ItemSettingPanel class, often in a .jsx format.
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   existingInstance (ItemClass, SettingPanelClass) {
     if (this.restoreInstance) {
-      throw new Error('You cannot call restoreInstance() multiple times.')
+      throw new Error('You cannot call existingInstance() multiple times.')
     }
     const typeId = this.id
     const settingIcon = this.settingPanelIcon
@@ -150,17 +228,39 @@ class ItemTypeBuilder {
     return this
   }
 
+  /**
+   * Optional call to add settings panel header attributes, to personalize title and icon.
+   *
+   * @param {string} title - Optional title, in English. Please keep it really short. Not much place to display it.
+   * @param {string} icon - Optional icon id to show in the header.
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   settingPanelWithHeader (title, icon) {
     this.settingPanelTitle = title
     this.settingPanelIcon = icon
     return this
   }
 
+  /**
+   * Mandatory. Each call to this method will add accepted dimension
+   *
+   * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/item-factory.jsx
+   * @param {object[]} dimensions - Array of simple object of type { w: X, h: Y }, X and Y between 1 to 3
+   * @returns {object} - This object, to chain methods
+   * @public
+   */
   acceptDimensions (dimensions) {
     this.dimensions = this.dimensions.concat(dimensions)
     return this
   }
 
+  /**
+   * Once all characteristics are set in the builder, call this method to register item type into asterism.
+   *
+   * @returns {ItemFactoryBuilder} - The ItemFactoryBuilder instance, to chain with another ItemTypeBuilder
+   * @public
+   */
   build () {
     const that = this
     const itemType = (itemFactory) => ({
@@ -181,15 +281,48 @@ class ItemTypeBuilder {
   }
 }
 
+/**
+* This class is used by a plugin to add item types. In an item factory (just one by plugin, referenced in the plugin manifest), we can specify many item types.
+* See example for use.
+*
+* @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx
+* @memberof module:asterism-plugin-library
+* @public
+*/
 class ItemFactoryBuilder {
   constructor () {
     this.itemsToBuild = {}
   }
 
+  /**
+   * To start a new item type build, call this method with a unique id and a category.
+   *
+   * Categories:
+   * - AdditionalItem.categories.DOMOTICS,
+   * - AdditionalItem.categories.SECURITY,
+   * - AdditionalItem.categories.SCREENING,
+   * - AdditionalItem.categories.COMMUNICATION,
+   * - AdditionalItem.categories.INFORMATION,
+   * - AdditionalItem.categories.DEVELOPMENT (to use only in dev mode, not shown in production mode)
+   *
+   * @param {string} id - A unique id to refer to this item type. Mandatory.
+   * @param {string} category - A category to clissify item type.
+   * @returns {ItemTypeBuilder} - A new ItemTypeBuilder instance, to begin describing an item type.
+   * @public
+   */
   newItemType (id, category) {
     return new ItemTypeBuilder(this, id, category)
   }
 
+  /**
+   * When all item type are built, call this to validate the entire builder and obtain a class.
+   * See example to know how to export the returned class.
+   *
+   * @param {class} - The class to instantiate an itemFactory. Should be kept as is (BasicItemFactory by default).
+   * @returns {ItemTypeBuilder} - A class instance, extending the BaseClass given in the first parameter (often a BasicItemFactory).
+   * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx
+   * @public
+   */
   build (BaseClass = BasicItemFactory) {
     const that = this
     const itemsInjectorMixin = (Clazz) => class extends Clazz {
