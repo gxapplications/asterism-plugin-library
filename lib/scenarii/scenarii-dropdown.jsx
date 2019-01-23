@@ -17,7 +17,7 @@ import { Input, Icon } from 'react-materialize'
  *   theme={theme} animationLevel={animationLevel} services={services} />
  *
  * @hideconstructor
- * @memberof module:asterism-plugin-library/scenarii
+ * @memberof module:Scenarii
  * @public
  */
 class ScenariiDropdown extends React.Component {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ActionsDropdown</title>
+    <title>JSDoc: Class: ScenariiDropdown</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ActionsDropdown</h1>
+    <h1 class="page-title">Class: ScenariiDropdown</h1>
 
     
 
@@ -29,12 +29,12 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a>.</span>ActionsDropdown</h2>
+            <span class="ancestors"><a href="module-Scenarii.html">Scenarii</a>.</span>ScenariiDropdown</h2>
         
-            <div class="class-description"><p>This React component shows a dropdown with available scenarii elements of 'action' type.
-This is use to choose an existing action (that is public, so not inside another scenarii element like a procedure)
+            <div class="class-description"><p>This React component shows a dropdown with available scenarii elements of 'scenario' type.
+This is use to choose an existing scenario (that is public, so not inside another scenarii element like a procedure)
 or to create a new one on the fly (optional).
-You can filter actions you want with a type filter as a callback, select default element, etc...</p></div>
+You can filter scenarii you want with a type filter as a callback, select default element, etc...</p></div>
         
     
 </header>
@@ -87,19 +87,12 @@ You can filter actions you want with a type filter as a callback, select default
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scenarii_actions-dropdown.jsx.html">scenarii/actions-dropdown.jsx</a>, <a href="scenarii_actions-dropdown.jsx.html#line24">line 24</a>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line23">line 23</a>
     </li></ul></dd>
     
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/action-aborter/edit-form.jsx#L32">https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/action-aborter/edit-form.jsx#L32</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -123,9 +116,9 @@ You can filter actions you want with a type filter as a callback, select default
 
     <h5>Example</h5>
     
-        <p class="code-caption">Example of an ActionDropdown. Use it in React JSX syntax</p>
+        <p class="code-caption">Example of an ScenariiDropdown. Use it in React JSX syntax</p>
     
-    <pre class="prettyprint"><code>&lt;ActionsDropdown defaultActionId={this.state.actionId} onChange={this.actionChanged.bind(this)}
+    <pre class="prettyprint"><code>&lt;ScenariiDropdown defaultScenarioId={this.state.scenarioId} onChange={this.scenarioChanged.bind(this)}
   theme={theme} animationLevel={animationLevel} services={services} /></code></pre>
 
 
@@ -191,7 +184,7 @@ You can filter actions you want with a type filter as a callback, select default
 
         <tr>
             
-                <td class="name"><code>defaultActionId</code></td>
+                <td class="name"><code>defaultScenarioId</code></td>
             
 
             <td class="type">
@@ -276,7 +269,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>'Action'.</p></td>
+            <td class="description last"><p>'Scenario'.</p></td>
         </tr>
 
     
@@ -299,7 +292,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>'error' (default icon for actions).</p></td>
+            <td class="description last"><p>'offline_pin' (default icon for scenarii).</p></td>
         </tr>
 
     
@@ -368,7 +361,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>() =&gt; true (allows all existing public actions).</p></td>
+            <td class="description last"><p>() =&gt; true (allows all existing public scenarii).</p></td>
         </tr>
 
     
@@ -407,7 +400,7 @@ You can filter actions you want with a type filter as a callback, select default
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scenarii_actions-dropdown.jsx.html">scenarii/actions-dropdown.jsx</a>, <a href="scenarii_actions-dropdown.jsx.html#line70">line 70</a>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -535,7 +528,7 @@ You can filter actions you want with a type filter as a callback, select default
 
         <tr>
             
-                <td class="name"><code>defaultActionId</code></td>
+                <td class="name"><code>defaultScenarioId</code></td>
             
 
             <td class="type">
@@ -551,7 +544,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>The action ID to pre-select at initialization.</p></td>
+            <td class="description last"><p>The scenario ID to pre-select at initialization.</p></td>
         </tr>
 
     
@@ -620,7 +613,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>Optional parent ID element for creation of a &quot;new action&quot; case. In that case, the new element will not appear in the main action list! None by default.</p></td>
+            <td class="description last"><p>Optional parent ID element for creation of a &quot;new scenario&quot; case. In that case, the new element will not appear in the main scenario list! None by default.</p></td>
         </tr>
 
     
@@ -712,7 +705,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>A filter to choose what type of new actions can be created from the dropdown.</p></td>
+            <td class="description last"><p>A filter to choose what type of new scenarii can be created from the dropdown.</p></td>
         </tr>
 
     
@@ -735,7 +728,7 @@ You can filter actions you want with a type filter as a callback, select default
 
             
 
-            <td class="description last"><p>A filter to choose what existing public actions should be listed in the dropdown.</p></td>
+            <td class="description last"><p>A filter to choose what existing public scenarii should be listed in the dropdown.</p></td>
         </tr>
 
     
@@ -774,7 +767,7 @@ You can filter actions you want with a type filter as a callback, select default
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scenarii_actions-dropdown.jsx.html">scenarii/actions-dropdown.jsx</a>, <a href="scenarii_actions-dropdown.jsx.html#line42">line 42</a>
+        <a href="scenarii_scenarii-dropdown.jsx.html">scenarii/scenarii-dropdown.jsx</a>, <a href="scenarii_scenarii-dropdown.jsx.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -808,13 +801,13 @@ You can filter actions you want with a type filter as a callback, select default
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-asterism-plugin-library.html">asterism-plugin-library</a></li><li><a href="module-asterism-plugin-library_scenarii.html">asterism-plugin-library/scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-asterism-plugin-library.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-asterism-plugin-library.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-asterism-plugin-library.IconPicker.html">IconPicker</a></li><li><a href="module-asterism-plugin-library.Item.html">Item</a></li><li><a href="module-asterism-plugin-library.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-asterism-plugin-library.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-asterism-plugin-library.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-asterism-plugin-library_scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-asterism-plugin-library_scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerState.html">ServerState</a></li><li><a href="module-asterism-plugin-library_scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-asterism-plugin-library_scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-asterism-plugin-library_scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 22 2019 16:59:56 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 23 2019 08:51:30 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

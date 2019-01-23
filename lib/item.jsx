@@ -66,7 +66,7 @@ import React from 'react'
 * }
 *
 * @hideconstructor
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 * @abstract
 */

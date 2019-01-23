@@ -167,7 +167,7 @@ const _icons = ['3d_rotation', 'ac_unit', 'access_alarm', 'access_alarms', 'acce
 *
 * @see https://github.com/gxapplications/asterism-plugin-zwave/blob/master/lib/items/wall-plug-setting-panel.jsx
 * @hideconstructor
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 */
 class IconPicker extends React.Component {

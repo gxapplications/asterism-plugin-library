@@ -26,7 +26,7 @@ import './styles.scss'
 *
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
 * @hideconstructor
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 */
 class ActionColorSwitch extends React.Component {

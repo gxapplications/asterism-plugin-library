@@ -37,7 +37,7 @@ import React from 'react'
 *
 * @see https://github.com/gxapplications/asterism-plugin-ipcam/blob/master/lib/settings.jsx
 * @hideconstructor
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 */
 class CollectionSetting extends React.Component {

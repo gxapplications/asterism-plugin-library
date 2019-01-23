@@ -99,7 +99,7 @@ class ItemLinker {
 *
 *
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 */
 class ItemTypeBuilder {
@@ -286,7 +286,7 @@ class ItemTypeBuilder {
 * See example for use.
 *
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 */
 class ItemFactoryBuilder {

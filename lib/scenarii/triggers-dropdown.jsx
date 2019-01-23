@@ -18,7 +18,7 @@ import { Input, Icon } from 'react-materialize'
  *
  * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/base-elements/actionable-scenario/edit-form.jsx#L63
  * @hideconstructor
- * @memberof module:asterism-plugin-library/scenarii
+ * @memberof module:Scenarii
  * @public
  */
 class TriggersDropdown extends React.Component {

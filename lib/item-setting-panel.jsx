@@ -33,7 +33,7 @@ import ItemFactoryBuilder from './item-factory-builder'
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/go-to-path-button/setting-panel.jsx
 * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/action-button/setting-panel.jsx
 * @hideconstructor
-* @memberof module:asterism-plugin-library
+* @memberof module:Asterism
 * @public
 * @abstract
 */
