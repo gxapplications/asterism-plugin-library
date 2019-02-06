@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -34,12 +34,7 @@
   },
   "babel": {
     "presets": [
-      [
-        "env",
-        { "targets": {
-          "chrome": "71"
-        } }
-      ],
+      "env",
       "react"
     ],
     "plugins": [
