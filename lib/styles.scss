@@ -53,12 +53,17 @@
 }
 
 .patternLock {
-  background-color: red;
+  background-color: transparent;
   width: 100%;
   height: 68vh;
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  & .patt-holder {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
 
   & ul.patt-wrap {
     margin: 0;

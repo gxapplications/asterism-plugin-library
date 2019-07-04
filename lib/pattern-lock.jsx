@@ -62,7 +62,7 @@ class PatternLock extends React.Component {
       radius: height / 14,
       margin: height / 14,
       matrix: [3, 3],
-      onDraw: this.onDraw
+      onDraw: this.onDraw.bind(this)
     })
   }
 
