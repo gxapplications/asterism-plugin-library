@@ -11,8 +11,12 @@ import 'patternlock/dist/patternlock.css'
 import './styles.scss'
 
 /**
-* This React component XXXX
+* This React component shows a pattern lock component, allowing to input a pattern code.
 *
+* @example <caption>Example of a patternLock. Use it in React JSX syntax</caption>
+* <PatternLock theme={theme} animationLevel={animationLevel} patternCallback={this.patternJustDraw.bind(this)} />
+*
+* @see https://github.com/gxapplications/asterism/blob/master/lib/browser/edition/settings-security.jsx
 * @hideconstructor
 * @memberof module:Asterism
 * @public
@@ -23,7 +27,9 @@ class PatternLock extends React.Component {
    *
    * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
    * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
-   * @property {func} patternCallback - The callback method with the pattern once drawn correctly. The pattern is given as parameter, with digits separated by '-'
+   * @property {func} patternCallback - The callback method with the pattern once drawn correctly. The pattern is given as parameter, with digits separated by '-'.
+   * @property {number} patternMinLength - The min length for input pattern. If draw is shorten than this number, an error style is shown for 3 seconds.
+   * @property {bool} allowRepeat - This allows a pattern to use more than once the same node. Allowing this you can reach a very complicated pattern.
    * @public
    */
   static propTypes = {
@@ -31,7 +37,7 @@ class PatternLock extends React.Component {
     animationLevel: PropTypes.number.isRequired,
     patternCallback: PropTypes.func.isRequired,
     patternMinLength: PropTypes.number,
-    allowRepeat: PropTypes.boolean
+    allowRepeat: PropTypes.bool
   }
 
   /**
@@ -72,7 +78,6 @@ class PatternLock extends React.Component {
 
   render () {
     // const { animationLevel, theme } = this.props
-
     return (
       <div className='patternLock'>
         <div id={this._id} />
