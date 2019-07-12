@@ -4,7 +4,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Input, Icon } from 'react-materialize'
+import { Select, Icon } from 'react-materialize'
 
 /**
  * This React component shows a dropdown with available scenarii elements of 'state' type.
@@ -122,7 +122,7 @@ class StatesDropdown extends React.Component {
 
     return (
       <div id={`states-dropdown-modal-anchor-${dropdownId}`}>
-        <Input s={12} label='State' type='select' icon='error' onChange={this.valueChanged.bind(this)} value={currentId}>
+        <Select s={12} label='State' icon='error' onChange={this.valueChanged.bind(this)} value={currentId}>
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
@@ -130,7 +130,7 @@ class StatesDropdown extends React.Component {
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
-        </Input>
+        </Select>
         {creatingInstance ? (
           <div id={`states-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer actions-dropdown-edit-panel', theme.backgrounds.body)}>
             <div className='modal-content'>

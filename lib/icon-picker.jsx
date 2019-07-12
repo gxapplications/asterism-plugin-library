@@ -4,7 +4,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Icon, Input, Modal } from 'react-materialize'
+import { Button, Icon, TextInput, Modal } from 'react-materialize'
 import uuid from 'uuid'
 
 import './styles.scss'
@@ -237,7 +237,7 @@ class IconPicker extends React.Component {
         }}
         actions={modalActions} trigger={triggerButton}>
 
-        <Input s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
+        <TextInput s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
           defaultValue={search} onChange={this.search.bind(this)} className='iconPickerSearch' />
 
         <div className='iconPickerContent'>

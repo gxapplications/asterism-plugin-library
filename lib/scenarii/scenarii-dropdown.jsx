@@ -4,7 +4,7 @@
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Input, Icon } from 'react-materialize'
+import { Select, Icon } from 'react-materialize'
 
 /**
  * This React component shows a dropdown with available scenarii elements of 'scenario' type.
@@ -140,7 +140,7 @@ class ScenariiDropdown extends React.Component {
 
     return (
       <div id={`scenarii-dropdown-modal-anchor-${dropdownId}`}>
-        <Input s={12} label={label} type='select' icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
+        <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
@@ -148,7 +148,7 @@ class ScenariiDropdown extends React.Component {
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
-        </Input>
+        </Select>
         {creatingInstance ? (
           <div id={`scenarii-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer scenarii-dropdown-edit-panel', theme.backgrounds.body)}>
             <div className='modal-content'>
