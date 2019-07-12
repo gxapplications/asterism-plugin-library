@@ -219,7 +219,7 @@ class IconPicker extends React.Component {
     const modalActions = (
       <div>
         <Button waves={animationLevel >= 2 ? 'light' : null}
-          className='btn-flat left truncate fluid' onClick={this.close.bind(this)}>
+          className='btn btn-flat left truncate fluid' onClick={this.close.bind(this)}>
           Cancel
         </Button>
         <Button waves={animationLevel >= 2 ? 'light' : null}
@@ -231,7 +231,7 @@ class IconPicker extends React.Component {
     )
     return (
       <Modal id={this._id} header='Pick an icon' fixedFooter
-        modalOptions={{
+        options={{
           inDuration: animationLevel >= 2 ? 300 : 0,
           outDuration: animationLevel >= 2 ? 300 : 0
         }}
