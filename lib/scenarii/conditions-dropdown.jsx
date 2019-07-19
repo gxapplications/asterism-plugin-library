@@ -116,11 +116,6 @@ class ConditionsDropdown extends React.Component {
           })),
           instances
         })
-
-        if (instances.length >= 1 && !this.state.currentId && !this.props.noCreationPanel) {
-          this.setState({ currentId: instances[0].instanceId })
-          this.props.onChange(instances[0].instanceId)
-        }
       })
     })
   }
@@ -134,20 +129,21 @@ class ConditionsDropdown extends React.Component {
   }
 
   render () {
-    const { theme, animationLevel, dropdownId, services, label, icon, children } = this.props
+    const { theme, animationLevel, dropdownId, services, label, icon, children = [] } = this.props
     const { types, instances, creatingInstance, currentId } = this.state
 
     const EditForm = (creatingInstance && creatingInstance.EditForm) || null
+    const childrenCount = ((children || []).length >= 0) ? (children || []).length : 1
 
     return (
       <div id={`conditions-dropdown-modal-anchor-${dropdownId}`}>
-        <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
-          {(instances.length + children.length) && (<option key='no-option-choosed' value='no-option-choosed' disabled>Please choose a condition</option>)}
+        <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || ''}>
+          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value={''} disabled>Please choose a condition</option> : []}
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
-          {types.length && (<option key='no-type-choosed' value='no-type-choosed' disabled>Or create a new one from these:</option>)}
+          {types.length > 0 ? <option key='no-type-choosed' value={''} disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose a condition to create'}</option> : []}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
