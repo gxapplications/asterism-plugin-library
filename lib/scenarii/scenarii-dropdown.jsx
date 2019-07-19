@@ -141,10 +141,12 @@ class ScenariiDropdown extends React.Component {
     return (
       <div id={`scenarii-dropdown-modal-anchor-${dropdownId}`}>
         <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
+          {(instances.length + children.length) && (<option key='no-option-choosed' value='no-option-choosed' disabled>Please choose a scenario</option>)}
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
+          {types.length && (<option key='no-type-choosed' value='no-type-choosed' disabled>Or create a new one from these:</option>)}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
@@ -180,7 +182,7 @@ class ScenariiDropdown extends React.Component {
   }
 
   valueChanged (event) {
-    const currentId = event.target.value
+    const currentId = event.currentTarget.value
     const type = this.state.types.find((type) => type.id === currentId)
     if (type) {
       type.onClick()

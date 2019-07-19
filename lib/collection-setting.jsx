@@ -24,6 +24,7 @@ import React from 'react'
 *             secondary: {
 *                 icon: 'more_vert',
 *                 onClick: () => {},
+*                 css: 'my-secondary-class'
 *             }
 *         }))
 *     }
@@ -85,7 +86,7 @@ class CollectionSetting extends React.Component {
             <span className='title truncate activator'>{el.title}</span>
             {el.details ? (<p className='truncate activator'>{el.details}</p>) : null}
             {el.secondary ? (
-              <div onClick={el.secondary.onClick} className={cx('secondary-content', { [waves]: el.secondary.onClick !== undefined })}>
+              <div onClick={el.secondary.onClick} className={cx('secondary-content', { [waves]: el.secondary.onClick !== undefined }, el.secondary.css)}>
                 <i className={cx('material-icons', el.secondary.icon)}>{el.secondary.icon || 'more_vert'}</i>
               </div>
             ) : null}

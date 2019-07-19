@@ -122,11 +122,13 @@ class StatesDropdown extends React.Component {
 
     return (
       <div id={`states-dropdown-modal-anchor-${dropdownId}`}>
-        <Select s={12} label='State' icon='error' onChange={this.valueChanged.bind(this)} value={currentId}>
+        <Select s={12} label='State' icon='error' onChange={this.valueChanged.bind(this)} value={currentId || undefined}>
+          {(instances.length + children.length) && (<option key='no-option-choosed' value='no-option-choosed' disabled>Please choose a state</option>)}
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
+          {types.length && (<option key='no-type-choosed' value='no-type-choosed' disabled>Or create a new one from these:</option>)}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
@@ -162,8 +164,9 @@ class StatesDropdown extends React.Component {
   }
 
   valueChanged (event) {
-    const currentId = event.target.value
+    const currentId = event.currentTarget.value
     const type = this.state.types.find((type) => type.id === currentId)
+    console.log('#####', event.currentTarget, type)
     if (type) {
       type.onClick()
     } else {
