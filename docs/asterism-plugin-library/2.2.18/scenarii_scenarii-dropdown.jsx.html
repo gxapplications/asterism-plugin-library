@@ -1,4 +1,32 @@
-'use strict'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: scenarii/scenarii-dropdown.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: scenarii/scenarii-dropdown.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
 
 /* global $ */
 import cx from 'classnames'
@@ -12,8 +40,8 @@ import { Select, Icon } from 'react-materialize'
  * or to create a new one on the fly (optional).
  * You can filter scenarii you want with a type filter as a callback, select default element, etc...
  *
- * @example <caption>Example of an ScenariiDropdown. Use it in React JSX syntax</caption>
- * <ScenariiDropdown defaultScenarioId={this.state.scenarioId} onChange={this.scenarioChanged.bind(this)}
+ * @example &lt;caption>Example of an ScenariiDropdown. Use it in React JSX syntax&lt;/caption>
+ * &lt;ScenariiDropdown defaultScenarioId={this.state.scenarioId} onChange={this.scenarioChanged.bind(this)}
  *   theme={theme} animationLevel={animationLevel} services={services} />
  *
  * @hideconstructor
@@ -131,49 +159,49 @@ class ScenariiDropdown extends React.Component {
     const { theme, animationLevel, dropdownId, services, label, icon, children = [] } = this.props
     const { types, instances, creatingInstance, currentId } = this.state
 
-    const EditForm = (creatingInstance && creatingInstance.EditForm) || null
+    const EditForm = (creatingInstance &amp;&amp; creatingInstance.EditForm) || null
     const childrenCount = ((children || []).length >= 0) ? (children || []).length : 1
 
     return (
-      <div id={`scenarii-dropdown-modal-anchor-${dropdownId}`}>
-        <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || ''}>
-          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value={''} disabled>Please choose a scenario</option> : []}
+      &lt;div id={`scenarii-dropdown-modal-anchor-${dropdownId}`}>
+        &lt;Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || ''}>
+          {(instances.length + childrenCount) > 0 ? &lt;option key='no-option-choosed' value={''} disabled>Please choose a scenario&lt;/option> : []}
           {children || []}
           {instances.map((instance, idx) => (
-            <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
+            &lt;option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}&lt;/option>
           ))}
-          {types.length > 0 ? <option key='no-type-choosed' value={''} disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose a scenario to create'}</option> : []}
+          {types.length > 0 ? &lt;option key='no-type-choosed' value={''} disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose a scenario to create'}&lt;/option> : []}
           {types.map(({ id, type, onClick }, idx) => (
-            <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
+            &lt;option key={type.name} value={id}>+ {type.shortLabel || type.name}&lt;/option>
           ))}
-        </Select>
+        &lt;/Select>
         {creatingInstance ? (
-          <div id={`scenarii-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer scenarii-dropdown-edit-panel', theme.backgrounds.body)}>
-            <div className='modal-content'>
-              <div className={cx('coloring-header', theme.backgrounds.editing)}>
-                <h4>{EditForm.label || 'Scenario configuration'}</h4>
-              </div>
-              <div>
-                <EditForm ref={(c) => { this._editFormInstance = c }}
+          &lt;div id={`scenarii-dropdown-modal-${dropdownId}`} className={cx('modal modal-fixed-footer scenarii-dropdown-edit-panel', theme.backgrounds.body)}>
+            &lt;div className='modal-content'>
+              &lt;div className={cx('coloring-header', theme.backgrounds.editing)}>
+                &lt;h4>{EditForm.label || 'Scenario configuration'}&lt;/h4>
+              &lt;/div>
+              &lt;div>
+                &lt;EditForm ref={(c) => { this._editFormInstance = c }}
                   instance={creatingInstance} services={services}
                   theme={theme} animationLevel={animationLevel}
                 />
-              </div>
-            </div>
-            <div className={cx('modal-footer', theme.backgrounds.body)}>
-              <a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
+              &lt;/div>
+            &lt;/div>
+            &lt;div className={cx('modal-footer', theme.backgrounds.body)}>
+              &lt;a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
                 'modal-action btn-flat',
                 { 'waves-effect waves-green': animationLevel >= 3 }
-              )}><Icon left>check</Icon> Ok</a>
+              )}>&lt;Icon left>check&lt;/Icon> Ok&lt;/a>
 
-              <a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
+              &lt;a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
                 'modal-action btn-flat',
                 { 'waves-effect waves-red': animationLevel >= 3 }
-              )}><Icon left>clear</Icon> Cancel</a>
-            </div>
-          </div>
+              )}>&lt;Icon left>clear&lt;/Icon> Cancel&lt;/a>
+            &lt;/div>
+          &lt;/div>
         ) : null}
-      </div>
+      &lt;/div>
     )
   }
 
@@ -212,3 +240,26 @@ class ScenariiDropdown extends React.Component {
 }
 
 export default ScenariiDropdown
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Asterism.PatternLock.html">PatternLock</a></li><li><a href="module-Asterism.TemperatureProgrammer.html">TemperatureProgrammer</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 21 2019 09:28:45 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

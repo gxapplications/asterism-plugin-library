@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.1.9",
+  "version": "2.2.31",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -29,8 +29,8 @@
     "domotics"
   ],
   "engines": {
-    "node": ">= 8.9.4",
-    "npm": ">= 5.6.0"
+    "node": ">= 8.11.1",
+    "npm": ">= 6.4.1"
   },
   "babel": {
     "presets": [
@@ -67,14 +67,19 @@
     },
     "parser": "babel-eslint",
     "ignore": [
-      "/docs/"
+      "/docs/",
+      "/test/",
+      "/lib/jquery.temperature-programmer.js",
+      "/test/temperature-programmer/jquery.js"
     ]
   },
   "pre-commit": [
     "lint"
   ],
   "dependencies": {
+    "debounce": "1.x",
     "patternlock": "2.0.2",
+    "resize-observer-polyfill": "^1.5.1",
     "uuid": "3.x"
   },
   "peerDependencies": {
