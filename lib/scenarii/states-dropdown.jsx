@@ -33,6 +33,7 @@ class StatesDropdown extends React.Component {
    * @property {string} dropdownId - An ID, just in order to be able to make a dom query on it...
    * @property {function} typeFilter - A filter to choose what type of new states can be created from the dropdown.
    * @property {function} instanceFilter - A filter to choose what existing public states should be listed in the dropdown.
+   * @property {string} label - The label to put above the input, in the user interface.
    * @public
    */
   static propTypes = {
@@ -43,7 +44,8 @@ class StatesDropdown extends React.Component {
     onChange: PropTypes.func.isRequired,
     dropdownId: PropTypes.string,
     typeFilter: PropTypes.func,
-    instanceFilter: PropTypes.func
+    instanceFilter: PropTypes.func,
+    label: PropTypes.string
   }
 
   /**
@@ -53,13 +55,15 @@ class StatesDropdown extends React.Component {
    * @property {string} dropdownId - '0' by default, to override if you need to query its DOM element.
    * @property {function} typeFilter - () => true (allows all types).
    * @property {function} instanceFilter - () => true (allows all existing public states).
+   * @property {string} label - 'State'.
    * @public
    */
   static defaultProps = {
     defaultStateId: null,
     dropdownId: '0',
     typeFilter: () => true,
-    instanceFilter: () => true
+    instanceFilter: () => true,
+    label: 'State'
   }
 
   constructor (props) {
@@ -110,7 +114,7 @@ class StatesDropdown extends React.Component {
   }
 
   render () {
-    const { theme, animationLevel, dropdownId, services, children = [] } = this.props
+    const { theme, animationLevel, dropdownId, services, children = [], label } = this.props
     const { types, instances, creatingInstance, currentId } = this.state
 
     const EditForm = (creatingInstance && creatingInstance.EditForm) || null
@@ -118,7 +122,7 @@ class StatesDropdown extends React.Component {
 
     return (
       <div id={`states-dropdown-modal-anchor-${dropdownId}`}>
-        <Select s={12} label='State' icon='error' onChange={this.valueChanged.bind(this)} value={currentId || ''}>
+        <Select s={12} label={label} icon='error' onChange={this.valueChanged.bind(this)} value={currentId || ''}>
           {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value={''} disabled>Please choose a state</option> : []}
           {children || []}
           {instances.map((instance, idx) => (
