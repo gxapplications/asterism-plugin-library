@@ -1,5 +1,6 @@
 lib
 docs
+test
 babel-sass-preprocessor.js
 .idea
 .jsdoc.conf.js

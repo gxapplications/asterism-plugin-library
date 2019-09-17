@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -67,7 +67,9 @@
     },
     "parser": "babel-eslint",
     "ignore": [
-      "/docs/"
+      "/docs/",
+      "/lib/jquery.temperature-programmer.js",
+      "/test/temperature-programmer/jquery.js"
     ]
   },
   "pre-commit": [
