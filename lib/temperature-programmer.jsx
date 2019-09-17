@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import uuid from 'uuid'
+import './jquery.temperature-programmer'
 
 /**
 * This React component shows XXXX
