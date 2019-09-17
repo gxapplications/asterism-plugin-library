@@ -1,10 +1,11 @@
 'use strict'
 
-/* global $ */
+/* global $, window */
 import PropTypes from 'prop-types'
 import React from 'react'
 import uuid from 'uuid'
-import './jquery.temperature-programmer'
+
+import DoubleKnob from './jquery.temperature-programmer'
 
 /**
 * This React component shows XXXX
@@ -60,6 +61,8 @@ class TemperatureProgrammer extends React.Component {
     ]
     this.doubleKnob = null
     this.planningModeTimer = null
+
+    DoubleKnob($, window)
   }
 
   componentWillMount () {
@@ -138,7 +141,7 @@ class TemperatureProgrammer extends React.Component {
       },
       onPlanerUpdate: (old, value) => {
         this.maintainPlanningMode()
-        if (settingDay >= 0) {
+        if (this.state.settingDay >= 0) {
           // TODO !0: update plannings[settingDay]
         } else {
           // TODO !0: update todayOverridenPlanning
@@ -150,9 +153,9 @@ class TemperatureProgrammer extends React.Component {
       onCenterClick: () => {
         this.closePlanningMode()
         this.setState({
-          forceMode: !forceMode
+          forceMode: !this.state.forceMode
         })
-        this.props.onForceModeChange(!forceMode)
+        this.props.onForceModeChange(!this.state.forceMode)
       }
     })
   }
