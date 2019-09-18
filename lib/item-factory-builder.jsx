@@ -142,7 +142,7 @@ class ItemTypeBuilder {
    * panel at creation: the settings panel will be available after creation, to update the item if needed.
    *
    * @param {class} ItemClass - The class to use to instantiate the item. It's a class extending Item class, often in a .jsx format.
-   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 3.
+   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 5.
    * @param {integer} preferredWidth - The default width of the new item instance on the dashboard. From 1 to 3.
    * @param {class} SettingPanelClass - The class of setting panel to use to update item params. Extending ItemSettingPanel class, often in a .jsx format.
    * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/action-button/item.jsx
@@ -176,7 +176,7 @@ class ItemTypeBuilder {
    * The given panel will open, and after its .next() call, will close to create the new item. This solution is recommended when you need params from
    * the user that you cannot give by default (and then cannot create an item without them).
    *
-   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 3.
+   * @param {integer} preferredHeight - The default height of the new item instance on the dashboard. From 1 to 5.
    * @param {integer} preferredWidth - The default width of the new item instance on the dashboard. From 1 to 3.
    * @param {class} SettingPanelClass - The class of setting panel to use to set initial item params. Extending ItemSettingPanel class, often in a .jsx format.
    * @returns {object} - This object, to chain methods
@@ -246,7 +246,7 @@ class ItemTypeBuilder {
    * Mandatory. Each call to this method will add accepted dimension
    *
    * @see https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/item-factory.jsx
-   * @param {object[]} dimensions - Array of simple object of type { w: X, h: Y }, X and Y between 1 to 3
+   * @param {object[]} dimensions - Array of simple object of type { w: X, h: Y }, X between 1 to 3, Y between 1 to 5
    * @returns {object} - This object, to chain methods
    * @public
    */

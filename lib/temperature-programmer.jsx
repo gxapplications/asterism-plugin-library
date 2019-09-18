@@ -1,11 +1,14 @@
 'use strict'
 
-/* global $, window */
+/* global $, window, ResizeObserver */
 import PropTypes from 'prop-types'
 import React from 'react'
 import uuid from 'uuid'
+import debounce from 'debounce'
 
 import DoubleKnob from './jquery.temperature-programmer'
+
+import './styles.scss'
 
 /**
 * This React component shows XXXX
@@ -61,6 +64,7 @@ class TemperatureProgrammer extends React.Component {
     ]
     this.doubleKnob = null
     this.planningModeTimer = null
+    this.resizeDebouncer = null
 
     DoubleKnob($, window)
   }
@@ -76,6 +80,7 @@ class TemperatureProgrammer extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
+    $('div#' + this._id + ' > div').off('resize')
     $('div#' + this._id).html('')
     this.doubleKnob.destroy()
     this.doubleKnob = null
@@ -104,7 +109,7 @@ class TemperatureProgrammer extends React.Component {
   }
 
   render () {
-    return <div id={this._id} />
+    return <div id={this._id} className='doubleKnob' />
   }
 
   createDoubleKnob () {
@@ -158,6 +163,13 @@ class TemperatureProgrammer extends React.Component {
         this.props.onForceModeChange(!this.state.forceMode)
       }
     })
+
+    $('div#' + this._id).parent().addClass('no-card')
+    this.resizeDebouncer = debounce(() => {
+      this.doubleKnob.resizer()
+      $('div#' + this._id).parent().addClass('no-card')
+    }, 500, false)
+    new ResizeObserver(this.resizeDebouncer.bind(this)).observe(window.document.getElementById(this._id))
   }
 
   closePlanningMode () {

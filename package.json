@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.2.6",
+  "version": "2.2.8",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -76,6 +76,7 @@
     "lint"
   ],
   "dependencies": {
+    "debounce": "1.x",
     "patternlock": "2.0.2",
     "uuid": "3.x"
   },
