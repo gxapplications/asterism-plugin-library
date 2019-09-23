@@ -22,14 +22,30 @@ class TemperatureProgrammer extends React.Component {
   static propTypes = {
     theme: PropTypes.object.isRequired,
     animationLevel: PropTypes.number.isRequired,
-    scaleOffset: PropTypes.number.isRequired,
-    scaleAmplitude: PropTypes.number.isRequired,
+    scaleOffset: PropTypes.number,
+    scaleAmplitude: PropTypes.number,
     title: PropTypes.string.isRequired,
-    temperaturesGetter: PropTypes.func.isRequired,
+    temperaturesGetter: PropTypes.func,
     plannerGetter: PropTypes.func.isRequired,
-    onTemperaturesChange: PropTypes.func.isRequired,
+    onTemperaturesChange: PropTypes.func,
     onPlannerChange: PropTypes.func.isRequired,
     onForceModeChange: PropTypes.func.isRequired
+  }
+
+  /**
+   * Default properties values.
+   *
+   * @property {integer} scaleOffset - Lowest temperature value allowed on the knobs track.
+   * @property {integer} scaleAmplitude - Highest difference between values. scaleOffset + scaleAmplitude is the higher temperature value allowed on the knobs track.
+   * @property {function} temperaturesGetter - Returns a promise resolving { ecoTemperature, comfortTemperature } to init.
+   * @property {function} onTemperaturesChange - Handler to receive user changes from knobs.
+   * @public
+   */
+  static defaultProps = {
+    scaleOffset: 0,
+    scaleAmplitude: 0,
+    temperaturesGetter: () => ({ ecoTemperature: 15, comfortTemperature: 19 }),
+    onTemperaturesChange: () => {}
   }
 
   constructor (props) {
@@ -66,17 +82,48 @@ class TemperatureProgrammer extends React.Component {
     this.planningModeTimer = null
     this.resizeDebouncer = null
 
+    this._currentHourStepUpdater = null
+
     DoubleKnob($, window)
   }
 
   componentWillMount () {
-    // TODO !0: fetch state.plannings and state.todayOverridenPlanning from props.plannerGetter
-    // TODO !0: fetch state.ecoTemperature and state.comfortTemperature from props.temperaturesGetter
+    return Promise.all([this.props.plannerGetter(), this.props.temperaturesGetter()])
+    .then(([{ plannings, todayOverridenPlanning }, { ecoTemperature, comfortTemperature }]) => {
+      this.setState({
+        plannings,
+        todayOverridenPlanning,
+        ecoTemperature,
+        comfortTemperature
+      })
+    })
+  }
+
+  _updateCurrentHourStep () {
+    const now = new Date()
+    this.setState({
+      currentHourStep: now.getHours() * 2 + (now.getMinutes() > 30 ? 1 : 0)
+    })
   }
 
   componentDidMount () {
     this.createDoubleKnob()
-    // TODO !0: create a setInterval to update state.currentHourStep and state.today every 0/30 rounded minutes.
+
+    // Auto refresh every 30 minutes, rounded
+    let oClock = new Date()
+    oClock.setMinutes(oClock.getMinutes() < 30 ? 0 : 30, 0, 5)
+    oClock = oClock.getTime() + (30 * 60000) // Next round half
+    this._currentHourStepUpdater = setTimeout(() => {
+      this._updateCurrentHourStep()
+      this._currentHourStepUpdater = setInterval(this._updateCurrentHourStep.bind(this), 30 * 60000)
+    }, oClock)
+  }
+
+  componentWillUnmount () {
+    try {
+      clearTimeout(this._currentHourStepUpdater)
+      clearInterval(this._currentHourStepUpdater)
+    } catch (e) {}
   }
 
   componentDidUpdate (prevProps, prevState) {

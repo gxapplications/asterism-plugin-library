@@ -97,7 +97,7 @@ class TriggersDropdown extends React.Component {
     this.scenariiService.getTriggerTypes().then((types) => {
       return this.scenariiService.getTriggerInstances()
       .then((instances) => {
-        instances = instances.filter(this.props.instanceFilter)
+        instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
         this.setState({
           types: types.filter(this.props.typeFilter).map((type) => ({
             id: type.id,

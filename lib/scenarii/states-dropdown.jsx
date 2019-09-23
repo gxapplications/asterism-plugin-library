@@ -85,7 +85,7 @@ class StatesDropdown extends React.Component {
     this.scenariiService.getStateTypes().then((types) => {
       return this.scenariiService.getStateInstances()
       .then((instances) => {
-        instances = instances.filter(this.props.instanceFilter)
+        instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
 
         this.setState({
           types: types.filter(this.props.typeFilter).map((type) => ({
