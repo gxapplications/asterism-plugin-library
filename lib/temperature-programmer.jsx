@@ -1,10 +1,11 @@
 'use strict'
 
-/* global $, window, ResizeObserver */
+/* global $, window */
 import PropTypes from 'prop-types'
 import React from 'react'
 import uuid from 'uuid'
 import debounce from 'debounce'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import DoubleKnob from './jquery.temperature-programmer'
 
@@ -107,7 +108,7 @@ class TemperatureProgrammer extends React.Component {
   }
 
   componentDidMount () {
-    this.createDoubleKnob()
+    // this.createDoubleKnob()
 
     // Auto refresh every 30 minutes, rounded
     let oClock = new Date()
@@ -127,9 +128,7 @@ class TemperatureProgrammer extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    $('div#' + this._id + ' > div').off('resize')
-    $('div#' + this._id).html('')
-    this.doubleKnob.destroy()
+    $('div#' + this._id).empty()
     this.doubleKnob = null
     this.createDoubleKnob()
   }
