@@ -103,7 +103,7 @@ class TemperatureProgrammer extends React.Component {
   _updateCurrentHourStep () {
     const now = new Date()
     this.setState({
-      currentHourStep: now.getHours() * 2 + (now.getMinutes() > 30 ? 1 : 0)
+      currentHourStep: (now.getHours() * 2) + (now.getMinutes() > 30 ? 1 : 0)
     })
   }
 
@@ -131,6 +131,7 @@ class TemperatureProgrammer extends React.Component {
     $('div#' + this._id).empty()
     this.doubleKnob = null
     this.createDoubleKnob()
+    console.log('### didUpdate()')
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -159,12 +160,12 @@ class TemperatureProgrammer extends React.Component {
   }
 
   createDoubleKnob () {
-    const { scaleOffset, scaleAmplitude, title } = this.props
+    const { scaleOffset, scaleAmplitude, title, onTemperaturesChange, onPlannerChange, onForceModeChange } = this.props
     const { ecoTemperature, comfortTemperature, plannings, today, currentHourStep, settingDay, forceMode } = this.state
 
     this.doubleKnob = $('div#' + this._id).temperatureProgrammer({
-      ecoTemperature,
-      comfortTemperature,
+      minValue: ecoTemperature,
+      maxValue: comfortTemperature,
       scaleOffset,
       scaleAmplitude,
       title,
@@ -180,7 +181,8 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        console.log(value) // TODO !0
+        console.log(value) // TODO !0: test
+        onTemperaturesChange(value, this.state.comfortTemperature)
       },
       onMaxUpdate: (old, value) => {
         this.closePlanningMode()
@@ -188,13 +190,18 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        console.log(value) // TODO !0
+        console.log(value) // TODO !0: test
+        onTemperaturesChange(this.state.ecoTemperature, value)
       },
       onPlanerUpdate: (old, value) => {
         this.maintainPlanningMode()
         if (this.state.settingDay >= 0) {
+          const newPlannings = [...this.state.plannings]
+          newPlannings[settingDay] = value
+          onPlannerChange(newPlannings, this.state.todayOverridenPlanning)
           // TODO !0: update plannings[settingDay]
         } else {
+          onPlannerChange(this.state.plannings, value)
           // TODO !0: update todayOverridenPlanning
         }
       },
@@ -206,7 +213,7 @@ class TemperatureProgrammer extends React.Component {
         this.setState({
           forceMode: !this.state.forceMode
         })
-        this.props.onForceModeChange(!this.state.forceMode)
+        onForceModeChange(!this.state.forceMode)
       }
     })
 
@@ -216,6 +223,7 @@ class TemperatureProgrammer extends React.Component {
       $('div#' + this._id).parent().addClass('no-card')
     }, 500, false)
     new ResizeObserver(this.resizeDebouncer.bind(this)).observe(window.document.getElementById(this._id))
+    console.log('### createDoubleKnob(), props:', this.props, ' state:', this.state)
   }
 
   closePlanningMode () {
