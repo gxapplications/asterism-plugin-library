@@ -30,7 +30,9 @@ class TemperatureProgrammer extends React.Component {
     plannerGetter: PropTypes.func.isRequired,
     onTemperaturesChange: PropTypes.func,
     onPlannerChange: PropTypes.func.isRequired,
-    onForceModeChange: PropTypes.func.isRequired
+    onForceModeChange: PropTypes.func.isRequired,
+    centralColor: PropTypes.string,
+    centralText: PropTypes.string
   }
 
   /**
@@ -46,7 +48,9 @@ class TemperatureProgrammer extends React.Component {
     scaleOffset: 0,
     scaleAmplitude: 0,
     temperaturesGetter: () => ({ ecoTemperature: 15, comfortTemperature: 19 }),
-    onTemperaturesChange: () => {}
+    onTemperaturesChange: () => {},
+    centralColor: null,
+    centralText: null
   }
 
   constructor (props) {
@@ -139,6 +143,8 @@ class TemperatureProgrammer extends React.Component {
         (nextProps.scaleOffset !== this.props.scaleOffset) ||
         (nextProps.scaleAmplitude !== this.props.scaleAmplitude) ||
         (nextProps.title !== this.props.title) ||
+        (nextProps.centralColor !== this.props.centralColor) ||
+        (nextProps.centralText !== this.props.centralText) ||
         (nextState.ecoTemperature !== this.state.ecoTemperature) ||
         (nextState.comfortTemperature !== this.state.comfortTemperature) ||
         (nextState.today !== this.state.today) ||
@@ -160,7 +166,7 @@ class TemperatureProgrammer extends React.Component {
   }
 
   createDoubleKnob () {
-    const { scaleOffset, scaleAmplitude, title, onTemperaturesChange, onPlannerChange, onForceModeChange } = this.props
+    const { scaleOffset, scaleAmplitude, title, onTemperaturesChange, onPlannerChange, onForceModeChange, centralColor, centralText } = this.props
     const { ecoTemperature, comfortTemperature, plannings, today, currentHourStep, settingDay, forceMode } = this.state
 
     this.doubleKnob = $('div#' + this._id).temperatureProgrammer({
@@ -181,7 +187,6 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        console.log(value) // TODO !0: test
         onTemperaturesChange(value, this.state.comfortTemperature)
       },
       onMaxUpdate: (old, value) => {
@@ -190,7 +195,6 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        console.log(value) // TODO !0: test
         onTemperaturesChange(this.state.ecoTemperature, value)
       },
       onPlanerUpdate: (old, value) => {
@@ -199,15 +203,17 @@ class TemperatureProgrammer extends React.Component {
           const newPlannings = [...this.state.plannings]
           newPlannings[settingDay] = value
           onPlannerChange(newPlannings, this.state.todayOverridenPlanning)
-          // TODO !0: update plannings[settingDay]
+          this.setState({ plannings: newPlannings })
+          // TODO !0: test if update is not too much
         } else {
           onPlannerChange(this.state.plannings, value)
-          // TODO !0: update todayOverridenPlanning
+          this.setState({ todayOverridenPlanning: value })
+          // TODO !0: test if update is not too much
         }
       },
       onDayClick: this.openPlanningMode.bind(this),
-      centerTitle: this.centerText[forceMode ? 1 : 0],
-      centerState: forceMode,
+      centerTitle: centralText || this.centerText[forceMode ? 1 : 0],
+      centerState: centralColor || forceMode,
       onCenterClick: () => {
         this.closePlanningMode()
         this.setState({
@@ -223,7 +229,6 @@ class TemperatureProgrammer extends React.Component {
       $('div#' + this._id).parent().addClass('no-card')
     }, 500, false)
     new ResizeObserver(this.resizeDebouncer.bind(this)).observe(window.document.getElementById(this._id))
-    console.log('### createDoubleKnob(), props:', this.props, ' state:', this.state)
   }
 
   closePlanningMode () {
