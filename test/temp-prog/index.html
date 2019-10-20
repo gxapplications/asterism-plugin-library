@@ -25,7 +25,7 @@
 
 <script type="text/javascript">
     let plannings = [ // XXX: state
-        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1],
         [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -36,6 +36,8 @@
     const today = 2
     let settingDay = -1 // XXX: state
     let planningModeTimer = null
+    let centerTimer = null
+    let centerClickTimeCount = 0
     const closePlanningMode = (doubleKnob) => {
         clearTimeout(planningModeTimer)
         settingDay = -1
@@ -47,17 +49,27 @@
         }
         planningModeTimer = setTimeout(() => closePlanningMode(doubleKnob), 5000)
     }
+    const suspendPlanningMode = (doubleKnob) => {
+        if (planningModeTimer) {
+            clearTimeout(planningModeTimer)
+            planningModeTimer = setTimeout(() => closePlanningMode(doubleKnob), 500000)
+        }
+    }
+    const restartPlanningMode = (doubleKnob) => {
+        if (planningModeTimer) {
+            clearTimeout(planningModeTimer)
+            planningModeTimer = setTimeout(() => closePlanningMode(doubleKnob), 4000)
+        }
+    }
     $(document).ready(function() {
-        const scaleOffset = 0
-        const scaleAmplitude = 0
-        const minValue = 18
+        const minValue = 19
         const maxValue = 21
         let forceMode = false // XXX: state
         const doubleKnob = $('div#app').temperatureProgrammer({
             minValue, // XXX: state
             maxValue, // XXX: state
-            scaleOffset: 0, // XXX: param
-            scaleAmplitude: 0, // XXX: param
+            scaleOffset: 18, // XXX: param
+            scaleAmplitude: 7, // XXX: param
             title: 'Min / Max', // XXX: param
             precision: 1,
             plannerPrecision: 0.5,
@@ -88,16 +100,38 @@
                 }
             },
             onDayClick: function(day) {
+                if (day === false) {
+                    return suspendPlanningMode(doubleKnob)
+                }
+                if (day === true) {
+                    return restartPlanningMode(doubleKnob)
+                }
                 settingDay = day
                 doubleKnob.setPlanner(plannings[settingDay], settingDay, today)
                 updatePlanningMode(doubleKnob)
             },
             centerTitle: forceMode ? 'Back to<br/>PROG.<br/>mode' : 'Force<br/>COMFORT<br/>for 2hrs',
             centerState: forceMode,
-            onCenterClick: function () {
+            onCenterClick: function (duration) {
+                console.log('duration: ', duration)
                 closePlanningMode(doubleKnob)
-                forceMode = !forceMode
-                doubleKnob.setCenter(forceMode ? 'Back to<br/>PROG.<br/>mode' : 'Force<br/>COMFORT<br/>for 2hrs', forceMode)
+                if (duration) {
+                    clearInterval(centerTimer);
+                    forceMode = !forceMode
+                    doubleKnob.setCenter(forceMode ? 'Back to<br/>PROG.<br/>mode' : 'Force<br/>COMFORT<br/>for 2hrs', forceMode)
+                } else {
+                    doubleKnob.setCenter(forceMode ? '' : '120mins<br/>&nbsp;<br/>SET', '#00897b')
+                    centerTimer = setInterval((a) => {
+                        if (centerClickTimeCount < 2) {
+                            centerClickTimeCount += 0.5
+                            doubleKnob.setCenter(`${centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
+                        } else {
+                            centerClickTimeCount++
+                            doubleKnob.setCenter(`${centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
+                        }
+                    }, 1200);
+                }
+
                 // XXX
             }
         });

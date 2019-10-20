@@ -86,6 +86,8 @@ class TemperatureProgrammer extends React.Component {
     this.doubleKnob = null
     this.planningModeTimer = null
     this.resizeDebouncer = null
+    this.centerClickTimer = null
+    this.centerClickTimeCount = 0
 
     this._currentHourStepUpdater = null
 
@@ -134,6 +136,12 @@ class TemperatureProgrammer extends React.Component {
   componentDidUpdate (prevProps, prevState) {
     $('div#' + this._id).empty()
     this.doubleKnob = null
+    if (this.planningModeTimer) {
+      clearTimeout(this.planningModeTimer)
+    }
+    if (this.centerClickTimer) {
+      clearInterval(this.centerClickTimer)
+    }
     this.createDoubleKnob()
     console.log('### didUpdate()')
   }
@@ -214,12 +222,30 @@ class TemperatureProgrammer extends React.Component {
       onDayClick: this.openPlanningMode.bind(this),
       centerTitle: centralText || this.centerText[forceMode ? 1 : 0],
       centerState: centralColor || forceMode,
-      onCenterClick: () => {
+      onCenterClick: (duration) => {
         this.closePlanningMode()
-        this.setState({
-          forceMode: !this.state.forceMode
-        })
-        onForceModeChange(!this.state.forceMode)
+        if (duration) {
+          if (this.centerClickTimer) {
+            clearInterval(this.centerClickTimer)
+          }
+          this.doubleKnob.setCenter(centralText || this.centerText[forceMode ? 1 : 0], centralColor || forceMode)
+          this.setState({
+            forceMode: !this.state.forceMode
+          })
+          onForceModeChange(!this.state.forceMode, this.centerClickTimeCount)
+        } else {
+          this.doubleKnob.setCenter(this.state.forceMode ? '' : '120mins<br/>&nbsp;<br/>SET', '#00897b')
+          this.centerClickTimeCount = 0
+          this.centerClickTimer = setInterval(() => {
+            if (this.centerClickTimeCount < 2) {
+              this.centerClickTimeCount += 0.5
+              this.doubleKnob.setCenter(`${this.centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
+            } else {
+              this.centerClickTimeCount++
+              this.doubleKnob.setCenter(`${this.centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
+            }
+          }, 1200)
+        }
       }
     })
 
