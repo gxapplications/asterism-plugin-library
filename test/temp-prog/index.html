@@ -120,19 +120,20 @@
                     forceMode = !forceMode
                     doubleKnob.setCenter(forceMode ? 'Back to<br/>PROG.<br/>mode' : 'Force<br/>COMFORT<br/>for 2hrs', forceMode)
                 } else {
-                    doubleKnob.setCenter(forceMode ? '' : '120mins<br/>&nbsp;<br/>SET', '#00897b')
-                    centerTimer = setInterval((a) => {
-                        if (centerClickTimeCount < 2) {
-                            centerClickTimeCount += 0.5
-                            doubleKnob.setCenter(`${centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
-                        } else {
-                            centerClickTimeCount++
-                            doubleKnob.setCenter(`${centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
-                        }
-                    }, 1200);
+                    centerClickTimeCount = 0;
+                    if (!forceMode) {
+                        doubleKnob.setCenter('120mins<br/>&nbsp;<br/>SET', '#00897b')
+                        centerTimer = setInterval((a) => {
+                            if (centerClickTimeCount < 2) {
+                                centerClickTimeCount += 0.5
+                                doubleKnob.setCenter(`${centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
+                            } else {
+                                centerClickTimeCount++
+                                doubleKnob.setCenter(`${centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
+                            }
+                        }, 1200);
+                    }
                 }
-
-                // XXX
             }
         });
     });

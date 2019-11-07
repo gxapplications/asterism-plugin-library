@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: ItemTypeBuilder</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: ItemTypeBuilder</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-Asterism.html">Asterism</a>.</span>ItemTypeBuilder<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>This class is instantiated through an itemFactoryBuilder, to add an item type with all its attributes and caracteristics.</p>
+<p>This builder is given by the following method, as example:
+const itemTypeBuilder = new ItemFactoryBuilder().newItemType('item_type_id', AdditionalItem.categories.DOMOTICS)</p>
+<p>You can chain methods to complete your item type description and characteristics.
+Once you chained all needed methods to build you item type, call .build() method to register it in <em>asterism</em>.</p>
+<p>Mandatory attributes/calls:</p>
+<ul>
+<li>id and category (through the ItemFactoryBuilder().newItemType(id, category) method),</li>
+<li>title (through .withDescription(title, text)),</li>
+<li>if you need to call .settingPanelWithHeader() - optional - do it before both below methods,</li>
+<li>either .newInstanceWithoutInitialSetting() XOR newInstanceFromInitialSetting() must be called,</li>
+<li>ItemClass and SettingPanelClass (through .existingInstance(ItemClass, SettingPanelClass))</li>
+<li>.acceptDimensions() must add at least one dimension.</li>
+</ul></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="ItemTypeBuilder"><span class="type-signature"></span>new ItemTypeBuilder<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line105">line 105</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx">https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const builder = new ItemFactoryBuilder()
+.newItemType('unique_item_type_id', AdditionalItem.categories.DOMOTICS)
+  .withDescription('Great Item')
+  .settingPanelWithHeader('Great Item settings', 'touch_app') // optional override, but always before *Instance*() calls...
+  .newInstanceFromInitialSetting(1, 2, GreatItemSettingPanel)
+  .existingInstance(GreatItem, GreatItemSettingPanel)
+  .acceptDimensions([
+    { w: 2, h: 1 },
+    { w: 1, h: 2 }
+  ])
+  .build()
+.newItemType(... // You can chain multiple item types</code></pre>
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="acceptDimensions"><span class="type-signature"></span>acceptDimensions<span class="signature">(dimensions)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Mandatory. Each call to this method will add accepted dimension</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dimensions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Array of simple object of type { w: X, h: Y }, X between 1 to 3, Y between 1 to 5</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line253">line 253</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/item-factory.jsx">https://github.com/gxapplications/asterism/blob/master/lib/plugins/navigation-tools/item-factory.jsx</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="build"><span class="type-signature"></span>build<span class="signature">()</span><span class="type-signature"> &rarr; {ItemFactoryBuilder}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Once all characteristics are set in the builder, call this method to register item type into asterism.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line264">line 264</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>The ItemFactoryBuilder instance, to chain with another ItemTypeBuilder</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemFactoryBuilder</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="existingInstance"><span class="type-signature"></span>existingInstance<span class="signature">(ItemClass, SettingPanelClass)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Adds mandatory behavior to the builder to indicate ItemClass and SettingPanelClass for existing items (when we need to restore them at refresh)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ItemClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class to use to instantiate the item. It's a class extending Item class, often in a .jsx format.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SettingPanelClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class of setting panel to use to update item params. Extending ItemSettingPanel class, often in a .jsx format.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line209">line 209</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="newInstanceFromInitialSetting"><span class="type-signature"></span>newInstanceFromInitialSetting<span class="signature">(preferredHeight, preferredWidth, SettingPanelClass)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Use this instead of .newInstanceWithoutInitialSetting() if you need to show setting panel before to be able to instantiate item.
+The given panel will open, and after its .next() call, will close to create the new item. This solution is recommended when you need params from
+the user that you cannot give by default (and then cannot create an item without them).</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>preferredHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default height of the new item instance on the dashboard. From 1 to 5.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preferredWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default width of the new item instance on the dashboard. From 1 to 3.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SettingPanelClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class of setting panel to use to set initial item params. Extending ItemSettingPanel class, often in a .jsx format.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line185">line 185</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="newInstanceWithoutInitialSetting"><span class="type-signature"></span>newInstanceWithoutInitialSetting<span class="signature">(ItemClass, preferredHeight, preferredWidth, SettingPanelClass)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Use this if you can instantiate an item without displaying a settings panel before. In other words, if an item instance
+can have default params values (that should be kept in default state most of the time) then you don't need to show settings
+panel at creation: the settings panel will be available after creation, to update the item if needed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ItemClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class to use to instantiate the item. It's a class extending Item class, often in a .jsx format.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preferredHeight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default height of the new item instance on the dashboard. From 1 to 5.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>preferredWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default width of the new item instance on the dashboard. From 1 to 3.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>SettingPanelClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class of setting panel to use to update item params. Extending ItemSettingPanel class, often in a .jsx format.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line152">line 152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/action-button/item.jsx">https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/action-button/item.jsx</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="settingPanelWithHeader"><span class="type-signature"></span>settingPanelWithHeader<span class="signature">(title, icon)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Optional call to add settings panel header attributes, to personalize title and icon.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional title, in English. Please keep it really short. Not much place to display it.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>icon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Optional icon id to show in the header.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line239">line 239</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="withDescription"><span class="type-signature"></span>withDescription<span class="signature">(title, text)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Adds a mandatory title (in English) and an optional description text (recommended)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Mandatory title, in English. Please keep it really short. Not much place to display it.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The optional description to complete your item title with a small explanation of the item type purpose. 1 or 2 lines.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line133">line 133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>This object, to chain methods</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Asterism.PatternLock.html">PatternLock</a></li><li><a href="module-Asterism.TemperatureProgrammer.html">TemperatureProgrammer</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 21 2019 09:28:45 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

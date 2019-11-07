@@ -1,4 +1,32 @@
-'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: jquery.temperature-programmer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: jquery.temperature-programmer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
 /*
 Inspired from jquery.percentageloader.js
@@ -63,7 +91,7 @@ const init = function ($, window) {
 
     /* Fix ledStates if needed */
     var newLedStates = [];
-    for (var i = 0; i < settings.ledCount; i++) {
+    for (var i = 0; i &lt; settings.ledCount; i++) {
       newLedStates[i] = settings.ledStates[i] || 0;
     }
     settings.ledStates = newLedStates;
@@ -106,7 +134,7 @@ const init = function ($, window) {
 
     /* Force text items to not allow selection */
     items = [valueText, percentageText];
-    for (i = 0; i < items.length; i += 1) {
+    for (i = 0; i &lt; items.length; i += 1) {
       item = items[i];
       selectors = [
         '-webkit-user-select',
@@ -115,7 +143,7 @@ const init = function ($, window) {
         '-o-user-select',
         'user-select'];
 
-      for (s = 0; s < selectors.length; s += 1) {
+      for (s = 0; s &lt; selectors.length; s += 1) {
         $(item).css(selectors[s], 'none');
       }
     }
@@ -364,7 +392,7 @@ const init = function ($, window) {
           ctx.font = (cX / 15) + 'px sans-serif, Arial';
           var textSize = ctx.measureText(label).width / 2;
           var translateOffset = withKnobs ? 1.09 : 1.31;
-          if (position < settings.ledCount / 2) { // left part
+          if (position &lt; settings.ledCount / 2) { // left part
             ctx.rotate(ledEndAngle + Math.PI - Math.PI / 51); // Fine tuning
             ctx.translate(-innerBarRadius2 * translateOffset - textSize, 0.5);
           } else { // right part
@@ -377,12 +405,12 @@ const init = function ($, window) {
         }
       }
 
-      for (var i = 0; i < settings.ledCount; i++) {
+      for (var i = 0; i &lt; settings.ledCount; i++) {
         let label = i * (settings.ledLabelCount / settings.ledCount) + settings.ledLabelOffset;
         label = (Math.floor(label) === label) ? label : undefined;
-        if (ledModifyingStart !== false && (
-          (i >= ledModifyingStart && i <= ledModifyingEnd) ||
-          (i >= ledModifyingEnd && i <= ledModifyingStart)
+        if (ledModifyingStart !== false &amp;&amp; (
+          (i >= ledModifyingStart &amp;&amp; i &lt;= ledModifyingEnd) ||
+          (i >= ledModifyingEnd &amp;&amp; i &lt;= ledModifyingStart)
         )) {
           drawLed(i, ledModifyingState, label);
         } else {
@@ -403,7 +431,7 @@ const init = function ($, window) {
         ctx.beginPath();
         var coords = makeInnerTubePath(ledStartAngle, ledEndAngle, innerBarRadius3 + ledRadiusMargin, outerBarRadius3 - ledRadiusMargin, 1);
         ctx.fill();
-        if ((7 - position) === settings.today || (position === 0 && position === settings.today)) {
+        if ((7 - position) === settings.today || (position === 0 &amp;&amp; position === settings.today)) {
           ctx.strokeStyle = '#f50000';
           ctx.lineWidth = 3;
           ctx.stroke();
@@ -423,10 +451,10 @@ const init = function ($, window) {
         }
       }
 
-      for (var i = 0; i < 7; i++) {
+      for (var i = 0; i &lt; 7; i++) {
         const days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
         var label = days[6 - i];
-        drawLed2(i, ((7 - i) === settings.currentDay % 7) || (i === 0 && i === settings.currentDay % 7), label);
+        drawLed2(i, ((7 - i) === settings.currentDay % 7) || (i === 0 &amp;&amp; i === settings.currentDay % 7), label);
       }
 
       /* knobs */
@@ -470,7 +498,7 @@ const init = function ($, window) {
           ctx.save();
           ctx.font = 'bold ' + fontSize + 'px sans-serif, Arial';
           ctx.fillStyle = '#ffffff';
-          if (!mouseDown1 && degress !== false) {
+          if (!mouseDown1 &amp;&amp; degress !== false) {
             var textSize = ctx.measureText(degressLabel);
             ctx.fillText(degressLabel, knob1X - textSize.width / 2, knob1Y + fontSize / 3.4);
           }
@@ -519,13 +547,13 @@ const init = function ($, window) {
      * Check the progress value and ensure it is within the correct bounds [0..1]
      */
     clipValue = function (inverse) {
-      if (progress < 0) {
+      if (progress &lt; 0) {
         progress = 0;
       }
       if (progress > 1.0) {
         progress = 1.0;
       }
-      if (degress < 0) {
+      if (degress &lt; 0) {
         degress = 0;
       }
       if (degress > 1.0) {
@@ -621,7 +649,7 @@ const init = function ($, window) {
              */
             params.onProgressUpdate(progress);
           }
-          if (degress != oldDegress && params.onDegressUpdate) {
+          if (degress != oldDegress &amp;&amp; params.onDegressUpdate) {
             /* use the progress value as this will have been clipped
              * to the correct range [0..1] after the call to setProgress
              */
@@ -653,7 +681,7 @@ const init = function ($, window) {
              */
             params.onDegressUpdate(degress);
           }
-          if (progress != oldProgress && params.onProgressUpdate) {
+          if (progress != oldProgress &amp;&amp; params.onProgressUpdate) {
             /* use the progress value as this will have been clipped
              * to the correct range [0..1] after the call to setProgress
              */
@@ -677,7 +705,7 @@ const init = function ($, window) {
           range = endAngleLed - startAngleLed;
           posValue = (angle - startTouchAngle) / range;
 
-          if (posValue < 0 || posValue > 1) {
+          if (posValue &lt; 0 || posValue > 1) {
             return false; // out of led track
           }
 
@@ -699,25 +727,25 @@ const init = function ($, window) {
           range = startAngleLed2 - endAngleLed2;
           posValue = (startTouchAngle - angle) / range;
 
-          if (posValue > 0.792 && posValue < 0.810) {
+          if (posValue > 0.792 &amp;&amp; posValue &lt; 0.810) {
             return 0;
           }
-          if (posValue > 0.813 && posValue < 0.831) {
+          if (posValue > 0.813 &amp;&amp; posValue &lt; 0.831) {
             return 6;
           }
-          if (posValue > 0.833 && posValue < 0.851) {
+          if (posValue > 0.833 &amp;&amp; posValue &lt; 0.851) {
             return 5;
           }
-          if (posValue > 0.854 || posValue < 0.061) {
+          if (posValue > 0.854 || posValue &lt; 0.061) {
             return 4;
           }
-          if (posValue > 0.063 && posValue < 0.081) {
+          if (posValue > 0.063 &amp;&amp; posValue &lt; 0.081) {
             return 3;
           }
-          if (posValue > 0.084 && posValue < 0.102) {
+          if (posValue > 0.084 &amp;&amp; posValue &lt; 0.102) {
             return 2;
           }
-          if (posValue > 0.105 && posValue < 0.124) {
+          if (posValue > 0.105 &amp;&amp; posValue &lt; 0.124) {
             return 1;
           }
 
@@ -729,7 +757,7 @@ const init = function ($, window) {
           outerDiv.style.cursor = 'default';
 
           var newLedStates = settings.ledStates.slice();
-          for (var i = Math.min(ledModifyingStart, ledModifyingEnd); i <= Math.max(ledModifyingStart, ledModifyingEnd); i++) {
+          for (var i = Math.min(ledModifyingStart, ledModifyingEnd); i &lt;= Math.max(ledModifyingStart, ledModifyingEnd); i++) {
             newLedStates[i] = ledModifyingState;
           }
 
@@ -751,7 +779,7 @@ const init = function ($, window) {
 
           distance = getDistance(x, y, cX, cY);
 
-          if (withKnobs && distance > innerRadius * 1.05 && distance < 0.9 * (innerBarRadius + radius) / 2) {
+          if (withKnobs &amp;&amp; distance > innerRadius * 1.05 &amp;&amp; distance &lt; 0.9 * (innerBarRadius + radius) / 2) {
             outerDiv.style.cursor = 'move';
 
             // search for nearest knob
@@ -760,7 +788,7 @@ const init = function ($, window) {
             if (angle > Math.PI / 2.0) {
               angle -= (Math.PI * 2.0);
             }
-            if (angle < Math.PI / 2.0) {
+            if (angle &lt; Math.PI / 2.0) {
               angle += (Math.PI * 2.0);
             }
             completeAngle2 = startAngle + (progress * (endAngle - startAngle));
@@ -772,7 +800,7 @@ const init = function ($, window) {
 
             if (
                 degress === false ||
-                (getDistance(x, y, point1.x, point1.y) >= getDistance(x, y, point2.x, point2.y) && angle <= completeAngle2) ||
+                (getDistance(x, y, point1.x, point1.y) >= getDistance(x, y, point2.x, point2.y) &amp;&amp; angle &lt;= completeAngle2) ||
                 angle > completeAngle2
             ) {
               mouseDown2 = true;
@@ -782,7 +810,7 @@ const init = function ($, window) {
               adjustDegressWithXY(x, y);
             }
           }
-          if (distance < radius * 0.85 && distance > radius * 0.60) {
+          if (distance &lt; radius * 0.85 &amp;&amp; distance > radius * 0.60) {
             outerDiv.style.cursor = 'move';
             mouseDown3 = true;
             ledModifyingEnd = ledModifyingStart = getLedWithXY(x, y);
@@ -795,14 +823,14 @@ const init = function ($, window) {
               }, 1600);
             }
           }
-          if (distance < radius * 1.1 && distance > radius * 0.88) {
+          if (distance &lt; radius * 1.1 &amp;&amp; distance > radius * 0.88) {
             const dayTouched = getDayWithXY(x, y);
-            if (params.onDayClick && dayTouched !== false) {
+            if (params.onDayClick &amp;&amp; dayTouched !== false) {
               params.onDayClick(dayTouched);
             }
           }
 
-          if (distance <= innerRadius * 0.98) {
+          if (distance &lt;= innerRadius * 0.98) {
             if (params.onCenterClick) {
               centerClickTime = Date.now();
               params.onCenterClick(false); // notify click start
@@ -826,7 +854,7 @@ const init = function ($, window) {
             triggerLedChanged();
           }
 
-          if (params.onCenterClick && centerClickTime) {
+          if (params.onCenterClick &amp;&amp; centerClickTime) {
             params.onCenterClick(Date.now() - centerClickTime);
             centerClickTime = null;
           }
@@ -844,15 +872,15 @@ const init = function ($, window) {
           if (angle > Math.PI / 2.0) {
             angle -= (Math.PI * 2.0);
           }
-          if (angle < Math.PI / 2.0) {
+          if (angle &lt; Math.PI / 2.0) {
             angle += (Math.PI * 2.0);
           }
           completeAngle2 = startAngle + (progress * (endAngle - startAngle));
           completeAngle1 = startAngle + ((degress || 0) * (endAngle - startAngle));
 
-          if (mouseDown1 && angle <= completeAngle2) {
+          if (mouseDown1 &amp;&amp; angle &lt;= completeAngle2) {
             adjustDegressWithXY(x, y);
-          } else if (mouseDown2 && angle >= completeAngle1) {
+          } else if (mouseDown2 &amp;&amp; angle >= completeAngle1) {
             adjustProgressWithXY(x, y);
           } else if (mouseDown3) {
             ledModifyingEnd = getLedWithXY(x, y);
@@ -874,7 +902,7 @@ const init = function ($, window) {
             triggerLedChanged();
           }
 
-          if (params.onCenterClick && centerClickTime) {
+          if (params.onCenterClick &amp;&amp; centerClickTime) {
             params.onCenterClick(Date.now() - centerClickTime);
             centerClickTime = null;
           }
@@ -1056,7 +1084,30 @@ const init = function ($, window) {
   };
 };
 
-export default function (jQuery, window) {
+/*export default function (jQuery, window) {
   return init(jQuery, window)
-}
-//init(jQuery, window)
+}*/
+init(jQuery, window)
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Asterism.PatternLock.html">PatternLock</a></li><li><a href="module-Asterism.TemperatureProgrammer.html">TemperatureProgrammer</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 21 2019 09:28:45 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
