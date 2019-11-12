@@ -230,10 +230,10 @@ class TemperatureProgrammer extends React.Component {
             clearInterval(this.centerClickTimer)
           }
           this.doubleKnob.setCenter(centralText || this.centerText[this.state.forceMode ? 1 : 0], centralColor || this.state.forceMode)
+          onForceModeChange(!this.state.forceMode, this.centerClickTimeCount)
           this.setState({
             forceMode: !this.state.forceMode
           })
-          onForceModeChange(!this.state.forceMode, this.centerClickTimeCount)
         } else {
           this.centerClickTimeCount = 0
           if (!this.state.forceMode) {
