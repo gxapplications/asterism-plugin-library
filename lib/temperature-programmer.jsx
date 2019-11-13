@@ -32,7 +32,8 @@ class TemperatureProgrammer extends React.Component {
     onPlannerChange: PropTypes.func.isRequired,
     onForceModeChange: PropTypes.func,
     centralColor: PropTypes.string,
-    centralText: PropTypes.string
+    centralText: PropTypes.string,
+    initialForceMode: PropTypes.bool
   }
 
   /**
@@ -51,7 +52,8 @@ class TemperatureProgrammer extends React.Component {
     onTemperaturesChange: () => {},
     onForceModeChange: null,
     centralColor: null,
-    centralText: null
+    centralText: null,
+    initialForceMode: false
   }
 
   constructor (props) {
@@ -76,7 +78,7 @@ class TemperatureProgrammer extends React.Component {
       currentHourStep,
       today: now.getDay(),
       settingDay: -1,
-      forceMode: false
+      forceMode: props.initialForceMode
     }
 
     this._id = uuid.v4()
@@ -144,7 +146,6 @@ class TemperatureProgrammer extends React.Component {
       clearInterval(this.centerClickTimer)
     }
     this.createDoubleKnob()
-    console.log('### didUpdate()')
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -162,7 +163,7 @@ class TemperatureProgrammer extends React.Component {
       return true
     }
 
-    if (nextState.forceMode !== this.state.forceMode) {
+    if (this.doubleKnob && nextState.forceMode !== this.state.forceMode) {
       this.doubleKnob.setCenter(this.centerText[nextState.forceMode ? 1 : 0], nextState.forceMode)
     }
     // TODO !0: call other graphical updates here :)
@@ -176,7 +177,7 @@ class TemperatureProgrammer extends React.Component {
 
   createDoubleKnob () {
     const { scaleOffset, scaleAmplitude, title, onTemperaturesChange, onPlannerChange, onForceModeChange, centralColor, centralText } = this.props
-    const { ecoTemperature, comfortTemperature, plannings, today, currentHourStep, settingDay, forceMode } = this.state
+    const { ecoTemperature, comfortTemperature, plannings, todayOverridenPlanning, today, currentHourStep, settingDay, forceMode } = this.state
 
     this.doubleKnob = $('div#' + this._id).temperatureProgrammer({
       minValue: ecoTemperature,
@@ -186,7 +187,7 @@ class TemperatureProgrammer extends React.Component {
       title,
       precision: 1, // 0 for 1° steps, 1 for 0.1° steps
       plannerPrecision: 0.5, // keep it, 48 step by day (every 30 minutes)
-      planner: plannings[today],
+      planner: (settingDay < 0 ? todayOverridenPlanning : false) || plannings[today],
       currentLed: currentHourStep,
       currentDay: settingDay,
       today,
@@ -229,7 +230,7 @@ class TemperatureProgrammer extends React.Component {
           if (this.centerClickTimer) {
             clearInterval(this.centerClickTimer)
           }
-          this.doubleKnob.setCenter(centralText || this.centerText[this.state.forceMode ? 1 : 0], centralColor || this.state.forceMode)
+          this.doubleKnob && this.doubleKnob.setCenter(centralText || this.centerText[this.state.forceMode ? 1 : 0], centralColor || this.state.forceMode)
           onForceModeChange(!this.state.forceMode, this.centerClickTimeCount)
           this.setState({
             forceMode: !this.state.forceMode
@@ -241,10 +242,10 @@ class TemperatureProgrammer extends React.Component {
             this.centerClickTimer = setInterval(() => {
               if (this.centerClickTimeCount < 2) {
                 this.centerClickTimeCount += 0.5
-                this.doubleKnob.setCenter(`${this.centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
+                this.doubleKnob && this.doubleKnob.setCenter(`${this.centerClickTimeCount * 60}mins<br/>&nbsp;<br/>SET`, '#64ffda')
               } else {
                 this.centerClickTimeCount++
-                this.doubleKnob.setCenter(`${this.centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
+                this.doubleKnob && this.doubleKnob.setCenter(`${this.centerClickTimeCount}hrs<br/>&nbsp;<br/>SET`, '#64ffda')
               }
             }, 1200)
           }
@@ -265,7 +266,7 @@ class TemperatureProgrammer extends React.Component {
     this.setState({
       settingDay: -1
     })
-    this.doubleKnob.setPlanner(this.state.plannings[this.state.today], -1, this.state.today)
+    this.doubleKnob.setPlanner(this.state.todayOverridenPlanning || this.state.plannings[this.state.today], -1, this.state.today)
   }
 
   openPlanningMode (day) {
