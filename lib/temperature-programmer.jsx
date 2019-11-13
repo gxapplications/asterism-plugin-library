@@ -126,13 +126,15 @@ class TemperatureProgrammer extends React.Component {
     this._currentHourStepUpdater = setTimeout(() => {
       this._updateCurrentHourStep()
       this._currentHourStepUpdater = setInterval(this._updateCurrentHourStep.bind(this), 30 * 60000)
-    }, oClock)
+    }, oClock - Date.now()) // TODO !0: a tester, un gros doute !
   }
 
   componentWillUnmount () {
     try {
       clearTimeout(this._currentHourStepUpdater)
       clearInterval(this._currentHourStepUpdater)
+      clearTimeout(this.planningModeTimer)
+      clearInterval(this.centerClickTimer)
     } catch (e) {}
   }
 
