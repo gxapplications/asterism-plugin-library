@@ -112,21 +112,20 @@ class TemperatureProgrammer extends React.Component {
   _updateCurrentHourStep () {
     const now = new Date()
     this.setState({
-      currentHourStep: (now.getHours() * 2) + (now.getMinutes() > 30 ? 1 : 0)
+      currentHourStep: (now.getHours() * 2) + (now.getMinutes() > 30 ? 1 : 0),
+      today: now.getDay()
     })
   }
 
   componentDidMount () {
-    // this.createDoubleKnob()
-
     // Auto refresh every 30 minutes, rounded
     let oClock = new Date()
-    oClock.setMinutes(oClock.getMinutes() < 30 ? 0 : 30, 0, 5)
+    oClock.setMinutes(oClock.getMinutes() < 30 ? 0 : 30, 2, 500)
     oClock = oClock.getTime() + (30 * 60000) // Next round half
     this._currentHourStepUpdater = setTimeout(() => {
       this._updateCurrentHourStep()
       this._currentHourStepUpdater = setInterval(this._updateCurrentHourStep.bind(this), 30 * 60000)
-    }, oClock - Date.now()) // TODO !0: a tester, un gros doute !
+    }, oClock - Date.now())
   }
 
   componentWillUnmount () {
@@ -216,11 +215,9 @@ class TemperatureProgrammer extends React.Component {
           newPlannings[this.state.settingDay] = value
           onPlannerChange(newPlannings, this.state.todayOverridenPlanning)
           this.setState({ plannings: newPlannings })
-          // TODO !0: test if update is not too much
         } else {
           onPlannerChange(this.state.plannings, value)
           this.setState({ todayOverridenPlanning: value })
-          // TODO !0: test if update is not too much
         }
       },
       onDayClick: this.openPlanningMode.bind(this),
