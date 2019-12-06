@@ -1,4 +1,4 @@
-![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/doc/asterism-text.png)
+![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/docs/asterism-text.png)
 
 _Common interfaces & utility libs to build a plugin for asterism. Made with JSDoc v3._
 
@@ -24,4 +24,4 @@ The tutorials are yet in construction. Please wait for more content on the next 
 
 For more documentation about _asterism_, go to the [_asterism_ wiki pages](https://github.com/gxapplications/asterism/wiki/Developer-documentation)
 
-(c) 2017-2019 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]
+(c) 2017-2020 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]

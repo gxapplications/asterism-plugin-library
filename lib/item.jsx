@@ -99,6 +99,8 @@ class Item extends React.Component {
 
   constructor (props) {
     super(props)
+    props.initialParams.refresh = this.refresh.bind(this)
+    props.initialParams.freeze = this.freeze.bind(this)
     this.state = {
       params: { ...props.initialParams } // clone it, props are immutable unlike state
     }
@@ -112,6 +114,31 @@ class Item extends React.Component {
     this.setState({ params })
     this.params = params
     console.log(`New params received for item #${this.props.id}.`)
+  }
+
+  /**
+   * This refresh is called by asterism when the whole dashboard should be refreshed.
+   * Override this when you should fetch data server side before to re-render the component.
+   *
+   * @param event {object} The event that triggered the refresh
+   * @returns {Promise<void>}
+   */
+  refresh (event) {
+    return new Promise((resolve) => {
+      this.forceUpdate(resolve)
+    })
+  }
+
+  /**
+   * This freeze is called by asterism when the dashboard items can pause their rendering.
+   * Override this when you can suspend some work when dashboard is not visible.
+   * Do nothing by default. Unfreeze is achieved calling refresh method.
+   *
+   * @param event {object} The event that triggered the refresh
+   * @returns {Promise<void>}
+   */
+  freeze (event) {
+    return Promise.resolve()
   }
 }
 

@@ -1,4 +1,4 @@
-![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/doc/asterism-text.png)
+![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/docs/asterism-text.png)
 
 # asterism-plugin-library
 
@@ -11,7 +11,7 @@ _This the common interfaces & utility libs to build a plugin for asterism. Use i
 [![npm downloads](https://img.shields.io/npm/dt/asterism-plugin-library.svg?logo=npm&label=npm%20downloads)](https://www.npmjs.com/package/asterism-plugin-library)
 [![Dependencies](https://david-dm.org/gxapplications/asterism-plugin-library/status.svg?logo=dependabot)](https://david-dm.org/gxapplications/asterism-plugin-library)
 
-_[Roadmap available here (asterism and plugins)](https://github.com/gxapplications/asterism/milestones?direction=asc&sort=due_date&state=open)_
+_[Roadmap available here (asterism and plugins)](https://github.com/users/gxapplications/projects/1)_
 
 ---
 
@@ -23,9 +23,9 @@ like the [asterism-plugin-template](https://github.com/gxapplications/asterism-p
 
 ## Library documentation
 
-The documentation is available [here, as a jsDoc](https://gxapplications.github.io/asterism-plugin-library/asterism-plugin-library/2.0.0/index.html)
+The documentation is available [here, as a jsDoc](https://gxapplications.github.io/asterism-plugin-library/asterism-plugin-library/2.4.0/index.html)
 
 For more documentation about _asterism_, go to the [asterism wiki pages](https://github.com/gxapplications/asterism/wiki/Developer-documentation)
 
 
-:copyright: 2017-2019 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]
+:copyright: 2017-2020 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]

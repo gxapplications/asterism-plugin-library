@@ -23,7 +23,7 @@ class BasicItemFactory {
 
   instantiateNewItem (additionalItemId, id, settingPanelCallback) {
     return this.saveItem(id, {}, additionalItemId)
-    .then(() => this.items[additionalItemId].newInstance(id, settingPanelCallback, this.items[additionalItemId].dimensions, this.context))
+      .then(() => this.items[additionalItemId].newInstance(id, settingPanelCallback, this.items[additionalItemId].dimensions, this.context))
   }
 
   instantiateItem (id, settingPanelCallback) {
@@ -31,14 +31,14 @@ class BasicItemFactory {
     // OR a promise resolving the same structure,
     // OR throw an error with error.status = 404 if not found (other errors won't be caught).
     return this.context.serverStorage.getItemForPath(id)
-    .then(({ additionalItemId, params }) => this.items[additionalItemId].restoreInstance(id, params, settingPanelCallback, this.items[additionalItemId].dimensions, this.context))
+      .then(({ additionalItemId, params }) => this.items[additionalItemId].restoreInstance(id, params, settingPanelCallback, this.items[additionalItemId].dimensions, this.context))
   }
 
   saveItem (id, params, additionalItemId) {
     // must return a Promise that resolves once save is persisted and can be retrieved by a read operation.
     if (!additionalItemId) {
       return this.context.serverStorage.getItemForPath(id)
-      .then((data) => this.context.serverStorage.setItemForPath(id, { additionalItemId: data.additionalItemId, params }))
+        .then((data) => this.context.serverStorage.setItemForPath(id, { additionalItemId: data.additionalItemId, params }))
     }
     return this.context.serverStorage.setItemForPath(id, { additionalItemId, params })
   }
@@ -55,10 +55,12 @@ class ItemLinker {
     this.itemSettingPanel = itemSettingPanel
     this.linkBoth()
   }
+
   receiveItem (item) {
     this.item = item
     this.linkBoth()
   }
+
   linkBoth () {
     if (this.item && this.itemSettingPanel && this.itemSettingPanel.state.item !== this.item) {
       this.itemSettingPanel.setState({ item: this.item, params: this.item.state.params || this.item.props.initialParams })
@@ -159,12 +161,16 @@ class ItemTypeBuilder {
     this.newInstance = (itemFactory) => (id, settingPanelCallback, acceptedDimensions, context) => {
       const itemLinker = new ItemLinker()
       const item = <ItemClass id={id} context={context} ref={(c) => itemLinker.receiveItem(c)} acceptedDimensions={acceptedDimensions} />
-      const settingPanel = <SettingPanelClass ref={(c) => itemLinker.receiveItemSettingPanel(c)}
-        icon={settingIcon} title={settingTitle}
-        id={id} item={item} context={context}
-        save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
-        acceptedDimensions={acceptedDimensions}
-        settingPanelCallback={settingPanelCallback} />
+      const settingPanel = (
+        <SettingPanelClass
+          ref={(c) => itemLinker.receiveItemSettingPanel(c)}
+          icon={settingIcon} title={settingTitle}
+          id={id} item={item} context={context}
+          save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
+          acceptedDimensions={acceptedDimensions}
+          settingPanelCallback={settingPanelCallback}
+        />
+      )
 
       return { id, item, preferredHeight, preferredWidth, settingPanel }
     }
@@ -189,12 +195,15 @@ class ItemTypeBuilder {
     const typeId = this.id
     const settingIcon = this.settingPanelIcon
     const settingTitle = this.settingPanelTitle || this.title
-    this.newInstance = (itemFactory) => (id, settingPanelCallback, acceptedDimensions, context) => <SettingPanelClass id={id}
-      icon={settingIcon} title={settingTitle} context={context}
-      save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
-      preferredHeight={preferredHeight} preferredWidth={preferredWidth}
-      acceptedDimensions={acceptedDimensions}
-      settingPanelCallback={settingPanelCallback} />
+    this.newInstance = (itemFactory) => (id, settingPanelCallback, acceptedDimensions, context) => (
+      <SettingPanelClass
+        id={id} icon={settingIcon} title={settingTitle} context={context}
+        save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
+        preferredHeight={preferredHeight} preferredWidth={preferredWidth}
+        acceptedDimensions={acceptedDimensions}
+        settingPanelCallback={settingPanelCallback}
+      />
+    )
     return this
   }
 
@@ -216,13 +225,16 @@ class ItemTypeBuilder {
     this.restoreInstance = (itemFactory) => (id, params, settingPanelCallback, acceptedDimensions, context) => {
       const itemLinker = new ItemLinker()
       const item = <ItemClass id={id} initialParams={params} context={context} ref={(c) => itemLinker.receiveItem(c)} acceptedDimensions={acceptedDimensions} />
-      const settingPanel = <SettingPanelClass ref={(c) => itemLinker.receiveItemSettingPanel(c)}
-        icon={settingIcon} title={settingTitle}
-        id={id} initialParams={params} item={item} context={context}
-        save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
-        acceptedDimensions={acceptedDimensions}
-        settingPanelCallback={settingPanelCallback} />
-
+      const settingPanel = (
+        <SettingPanelClass
+          ref={(c) => itemLinker.receiveItemSettingPanel(c)}
+          icon={settingIcon} title={settingTitle}
+          id={id} initialParams={params} item={item} context={context}
+          save={(newParams) => itemFactory.saveItem(id, newParams, typeId)}
+          acceptedDimensions={acceptedDimensions}
+          settingPanelCallback={settingPanelCallback}
+        />
+      )
       return { item, settingPanel }
     }
     return this
@@ -265,11 +277,11 @@ class ItemTypeBuilder {
     const that = this
     const itemType = (itemFactory) => ({
       additionalItem: new AdditionalItem(
-          itemFactory,
-          that.id,
-          that.title,
-          that.category,
-          that.description
+        itemFactory,
+        that.id,
+        that.title,
+        that.category,
+        that.description
       ),
       newInstance: this.newInstance(itemFactory),
       restoreInstance: this.restoreInstance(itemFactory),

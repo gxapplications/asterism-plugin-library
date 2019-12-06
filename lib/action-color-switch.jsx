@@ -74,18 +74,24 @@ class ActionColorSwitch extends React.Component {
 
     return (
       <Row className='actionColorSwitch'>
-        <button className={cx('col s4 fluid', (color === 'primary') ? 'btn-flat' : 'btn', theme.actions.primary)}
-          onClick={this.selectColor.bind(this, 'primary')}>
+        <button
+          className={cx('col s4 fluid', (color === 'primary') ? 'btn-flat' : 'btn', theme.actions.primary)}
+          onClick={this.selectColor.bind(this, 'primary')}
+        >
           <i className='material-icons left'>{color === 'primary' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
           Primary
         </button>
-        <button className={cx('col s4 fluid', (color === 'secondary') ? 'btn-flat' : 'btn', theme.actions.secondary)}
-          onClick={this.selectColor.bind(this, 'secondary')}>
+        <button
+          className={cx('col s4 fluid', (color === 'secondary') ? 'btn-flat' : 'btn', theme.actions.secondary)}
+          onClick={this.selectColor.bind(this, 'secondary')}
+        >
           <i className='material-icons left'>{color === 'secondary' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
           Secondary
         </button>
-        <button className={cx('col s4 fluid', (color === 'inconspicuous') ? 'btn-flat' : 'btn', theme.actions.inconspicuous)}
-          onClick={this.selectColor.bind(this, 'inconspicuous')}>
+        <button
+          className={cx('col s4 fluid', (color === 'inconspicuous') ? 'btn-flat' : 'btn', theme.actions.inconspicuous)}
+          onClick={this.selectColor.bind(this, 'inconspicuous')}
+        >
           <i className='material-icons left'>{color === 'inconspicuous' ? 'radio_button_checked' : 'radio_button_unchecked'}</i>
           Neutral
         </button>

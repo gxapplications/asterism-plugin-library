@@ -213,38 +213,50 @@ class IconPicker extends React.Component {
     const filteredIcons = _icons.filter((icon) => !search || icon.includes(search))
 
     const triggerButton = (
-      <Button floating large waves={animationLevel >= 2 ? 'light' : null}
-        className={cx(theme.actions.inconspicuous, 'truncate fluid')} icon={icon} />
+      <Button
+        floating large waves={animationLevel >= 2 ? 'light' : null}
+        className={cx(theme.actions.inconspicuous, 'truncate fluid')} icon={icon}
+      />
     )
     const modalActions = (
       <div>
-        <Button waves={animationLevel >= 2 ? 'light' : null}
-          className='btn btn-flat left truncate fluid' onClick={this.close.bind(this)}>
+        <Button
+          waves={animationLevel >= 2 ? 'light' : null}
+          className='btn btn-flat left truncate fluid' onClick={this.close.bind(this)}
+        >
           Cancel
         </Button>
-        <Button waves={animationLevel >= 2 ? 'light' : null}
-          className={cx(theme.actions.inconspicuous, 'truncate fluid')} onClick={this.validate.bind(this)}>
+        <Button
+          waves={animationLevel >= 2 ? 'light' : null}
+          className={cx(theme.actions.inconspicuous, 'truncate fluid')} onClick={this.validate.bind(this)}
+        >
           <Icon left>{icon}</Icon>
           Pick it
         </Button>
       </div>
     )
     return (
-      <Modal id={this._id} header='Pick an icon' fixedFooter
+      <Modal
+        id={this._id} header='Pick an icon' fixedFooter
         options={{
           inDuration: animationLevel >= 2 ? 300 : 0,
           outDuration: animationLevel >= 2 ? 300 : 0
         }}
-        actions={modalActions} trigger={triggerButton}>
+        actions={modalActions} trigger={triggerButton}
+      >
 
-        <TextInput s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
-          defaultValue={search} onChange={this.search.bind(this)} className='iconPickerSearch' />
+        <TextInput
+          s={12} placeholder='Search' icon='search' ref={(c) => { this._search = c }}
+          defaultValue={search} onChange={this.search.bind(this)} className='iconPickerSearch'
+        />
 
         <div className='iconPickerContent'>
           <div className='iconList'>
             {filteredIcons.map((i, idx) => (
-              <div key={idx} onClick={this.select.bind(this, i)}
-                className={cx('btn-flat icon', theme.actions.inconspicuous, animationLevel >= 2 ? 'waves-effect waves-light' : null)}>
+              <div
+                key={idx} onClick={this.select.bind(this, i)}
+                className={cx('btn-flat icon', theme.actions.inconspicuous, animationLevel >= 2 ? 'waves-effect waves-light' : null)}
+              >
                 <i className='material-icons'>{i}</i>
                 <span className='truncate'>{i}</span>
               </div>

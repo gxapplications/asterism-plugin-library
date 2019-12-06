@@ -60,7 +60,7 @@ class TemperatureProgrammer extends React.Component {
     super(props)
 
     const now = new Date()
-    const currentHourStep = now.getHours() * 2 + (now.getMinutes() > 30 ? 1 : 0)
+    const currentHourStep = now.getHours() * 2 + (now.getMinutes() >= 30 ? 1 : 0)
 
     this.state = {
       ecoTemperature: 14,
@@ -99,20 +99,20 @@ class TemperatureProgrammer extends React.Component {
 
   componentWillMount () {
     return Promise.all([this.props.plannerGetter(), this.props.temperaturesGetter()])
-    .then(([{ plannings, todayOverridenPlanning }, { ecoTemperature, comfortTemperature }]) => {
-      this.setState({
-        plannings,
-        todayOverridenPlanning,
-        ecoTemperature,
-        comfortTemperature
+      .then(([{ plannings, todayOverridenPlanning }, { ecoTemperature, comfortTemperature }]) => {
+        this.setState({
+          plannings,
+          todayOverridenPlanning,
+          ecoTemperature,
+          comfortTemperature
+        })
       })
-    })
   }
 
   _updateCurrentHourStep () {
     const now = new Date()
     this.setState({
-      currentHourStep: (now.getHours() * 2) + (now.getMinutes() > 30 ? 1 : 0),
+      currentHourStep: (now.getHours() * 2) + (now.getMinutes() >= 30 ? 1 : 0),
       today: now.getDay()
     })
   }
@@ -151,15 +151,15 @@ class TemperatureProgrammer extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (
-        (nextProps.scaleOffset !== this.props.scaleOffset) ||
-        (nextProps.scaleAmplitude !== this.props.scaleAmplitude) ||
-        (nextProps.title !== this.props.title) ||
-        (nextProps.centralColor !== this.props.centralColor) ||
-        (nextProps.centralText !== this.props.centralText) ||
-        (nextState.ecoTemperature !== this.state.ecoTemperature) ||
-        (nextState.comfortTemperature !== this.state.comfortTemperature) ||
-        (nextState.today !== this.state.today) ||
-        (nextState.currentHourStep !== this.state.currentHourStep)
+      (nextProps.scaleOffset !== this.props.scaleOffset) ||
+      (nextProps.scaleAmplitude !== this.props.scaleAmplitude) ||
+      (nextProps.title !== this.props.title) ||
+      (nextProps.centralColor !== this.props.centralColor) ||
+      (nextProps.centralText !== this.props.centralText) ||
+      (nextState.ecoTemperature !== this.state.ecoTemperature) ||
+      (nextState.comfortTemperature !== this.state.comfortTemperature) ||
+      (nextState.today !== this.state.today) ||
+      (nextState.currentHourStep !== this.state.currentHourStep)
     ) {
       return true
     }
@@ -194,19 +194,41 @@ class TemperatureProgrammer extends React.Component {
       today,
       onMinUpdate: (old, value) => {
         this.closePlanningMode()
-        if (old === value) {
+        // eslint-disable-next-line eqeqeq
+        if (old == value) {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        onTemperaturesChange(value, this.state.comfortTemperature)
+        const fixedValues = onTemperaturesChange(value, this.state.comfortTemperature)
+        if (fixedValues) {
+          this.setState({
+            ecoTemperature: fixedValues.ecoTemperature,
+            comfortTemperature: fixedValues.comfortTemperature
+          })
+        } else {
+          this.setState({
+            ecoTemperature: value
+          })
+        }
       },
       onMaxUpdate: (old, value) => {
         this.closePlanningMode()
-        if (old === value) {
+        // eslint-disable-next-line eqeqeq
+        if (old == value) {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        onTemperaturesChange(this.state.ecoTemperature, value)
+        const fixedValues = onTemperaturesChange(this.state.ecoTemperature, value)
+        if (fixedValues) {
+          this.setState({
+            ecoTemperature: fixedValues.ecoTemperature,
+            comfortTemperature: fixedValues.comfortTemperature
+          })
+        } else {
+          this.setState({
+            comfortTemperature: value
+          })
+        }
       },
       onPlanerUpdate: (old, value) => {
         this.maintainPlanningMode()
