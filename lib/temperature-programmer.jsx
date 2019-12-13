@@ -60,7 +60,7 @@ class TemperatureProgrammer extends React.Component {
     super(props)
 
     const now = new Date()
-    const currentHourStep = now.getHours() * 2 + (now.getMinutes() > 30 ? 1 : 0)
+    const currentHourStep = now.getHours() * 2 + (now.getMinutes() >= 30 ? 1 : 0)
 
     this.state = {
       ecoTemperature: 14,
@@ -112,7 +112,7 @@ class TemperatureProgrammer extends React.Component {
   _updateCurrentHourStep () {
     const now = new Date()
     this.setState({
-      currentHourStep: (now.getHours() * 2) + (now.getMinutes() > 30 ? 1 : 0),
+      currentHourStep: (now.getHours() * 2) + (now.getMinutes() >= 30 ? 1 : 0),
       today: now.getDay()
     })
   }
