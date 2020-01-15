@@ -1,6 +1,6 @@
 {
   "name": "asterism-plugin-library",
-  "version": "2.2.33",
+  "version": "2.3.0",
   "description": "Shared lib to include into asterism plugins",
   "author": "Xavier Gouley <gxapplications@gmail.com>",
   "contributors": [],
@@ -29,7 +29,7 @@
     "domotics"
   ],
   "engines": {
-    "node": ">= 8.11.1",
+    "node": "8.13.0 - 8.17.0",
     "npm": ">= 6.4.1"
   },
   "babel": {
@@ -99,7 +99,7 @@
     "babel-preset-react": "6.24.x",
     "jsdoc": "3.x",
     "jsdoc-react-proptypes": "1.0.x",
-    "node-sass": "4.9.x",
+    "node-sass": "4.13.x",
     "precommit-hook": "3.0.0",
     "rimraf": "2.x",
     "snazzy": "7.x",
