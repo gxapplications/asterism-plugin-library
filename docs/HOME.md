@@ -1,4 +1,4 @@
-![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/doc/asterism-text.png)
+![asterism-logo](https://raw.githubusercontent.com/gxapplications/asterism/master/docs/asterism-text.png)
 
 _Common interfaces & utility libs to build a plugin for asterism. Made with JSDoc v3._
 
