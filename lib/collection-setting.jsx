@@ -1,4 +1,5 @@
 'use strict'
+/* eslint-disable react/jsx-handler-names */
 
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -93,17 +94,23 @@ class CollectionSetting extends React.Component {
           </a>
         ))}
         {list.length ? (
-          (addElement && addElement.trailing) ? <a href='#!' className={cx('collection-item avatar activator trailing add', waves)} onClick={addElement.onClick}>
-            <i className='material-icons circle activator'>{(addElement.trailing && addElement.trailing.icon) || 'add'}</i>
-            <span className='title truncate activator'>{(addElement.trailing && addElement.trailing.title) || 'Add a new element'}</span>
-          </a> : null
+          (addElement && addElement.trailing) ? (
+            <a href='#!' className={cx('collection-item avatar activator trailing add', waves)} onClick={addElement.onClick}>
+              <i className='material-icons circle activator'>{(addElement.trailing && addElement.trailing.icon) || 'add'}</i>
+              <span className='title truncate activator'>{(addElement.trailing && addElement.trailing.title) || 'Add a new element'}</span>
+            </a>
+          ) : null
         ) : (
-          (addElement && addElement.empty) ? <a href='#!' className={cx('collection-item big-avatar activator empty add', waves)} onClick={addElement.onClick}>
-            <i className='material-icons circle activator'>{(addElement.empty && addElement.empty.icon) || 'add'}</i>
-            <span className='title truncate activator'>{(addElement.empty && addElement.empty.title) || 'Add a first element'}</span>
-          </a> : <a nohref className={cx('collection-item big-avatar activator empty add')}>
-            <span className='title truncate activator'>There is nothing to show here.</span>
-          </a>
+          (addElement && addElement.empty) ? (
+            <a href='#!' className={cx('collection-item big-avatar activator empty add', waves)} onClick={addElement.onClick}>
+              <i className='material-icons circle activator'>{(addElement.empty && addElement.empty.icon) || 'add'}</i>
+              <span className='title truncate activator'>{(addElement.empty && addElement.empty.title) || 'Add a first element'}</span>
+            </a>
+          ) : (
+            <a nohref className={cx('collection-item big-avatar activator empty add')}>
+              <span className='title truncate activator'>There is nothing to show here.</span>
+            </a>
+          )
         )}
       </div>
     )

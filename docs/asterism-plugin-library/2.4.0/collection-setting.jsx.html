@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: collection-setting.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: collection-setting.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+/* eslint-disable react/jsx-handler-names */
+
+import cx from 'classnames'
+import PropTypes from 'prop-types'
+import React from 'react'
+
+/**
+* This React component shows a collection of items, most often clickable for edition.
+* At the end of the list, an item can be added to let add more items.
+*
+* Default header is to have no header (empty string)
+*
+* @example &lt;caption>Use it in React JSX syntax&lt;/caption>
+* &lt;CollectionSetting
+*     theme={theme}
+*     animationLevel={animationLevel}
+*     list={
+*         elements.map((el) => ({
+*             title: el.name || 'Unnamed',
+*             icon: 'favorite',
+*             onClick: this.configureElement.bind(this, el),
+*             details: el.details || 'No more details',
+*             css: 'my-class',
+*             secondary: {
+*                 icon: 'more_vert',
+*                 onClick: () => {},
+*                 css: 'my-secondary-class'
+*             }
+*         }))
+*     }
+*     header='My elements list'
+*     addElement={{
+*         empty: { title: 'Add your first element here', icon: 'add' },
+*         trailing: { title: 'Add an element' },
+*         onClick: this.addElement.bind(this)
+*     }}
+* />
+*
+* @see https://github.com/gxapplications/asterism-plugin-ipcam/blob/master/lib/settings.jsx
+* @hideconstructor
+* @memberof module:Asterism
+* @public
+*/
+class CollectionSetting extends React.Component {
+  /**
+   * React properties to use on this component.
+   *
+   * @property {object} theme - The asterism theme object. Often available from the parent component, or in the mainState object of a context.
+   * @property {number} animationLevel - The asterism main parameter for visual animations. Often available from the parent component, or in the mainState object of a context.
+   * @property {object[]} list - The elements as an objects array. See above example for object attributes to insert here.
+   * @property {string} header - The header displayed above the collection.
+   * @property {object} addElement - An object containing empty list case and a 'add element' trailing item. See above example for object attributes to insert here.
+   * @public
+   */
+  static propTypes = {
+    theme: PropTypes.object.isRequired,
+    animationLevel: PropTypes.number.isRequired,
+    list: PropTypes.array.isRequired,
+    header: PropTypes.string,
+    addElement: PropTypes.object
+  }
+
+  /**
+   * Default properties values.
+   * @property {string} header - ""
+   * @public
+   */
+  static defaultProps = {
+    header: ''
+  }
+
+  render () {
+    const { animationLevel, list, header, addElement } = this.props
+    const waves = animationLevel >= 2 ? 'waves-effect waves-light' : undefined
+
+    return (
+      &lt;div className='collection'>
+        {(header &amp;&amp; header.length) ? (
+          &lt;div className='collection-item'>
+            &lt;h5 className='truncate'>{header}&lt;/h5>
+          &lt;/div>
+        ) : null}
+        {list.map((el, idx) => (
+          &lt;a key={idx} className={cx('collection-item avatar activator', { [waves]: el.onClick !== undefined }, el.css)} href='#!' onClick={el.onClick}>
+            &lt;i className={cx('material-icons circle activator', el.icon)}>{el.icon || (el.onClick ? 'menu' : '')}&lt;/i>
+            &lt;span className='title truncate activator'>{el.title}&lt;/span>
+            {el.details ? (&lt;p className='truncate activator'>{el.details}&lt;/p>) : null}
+            {el.secondary ? (
+              &lt;div onClick={el.secondary.onClick} className={cx('secondary-content', { [waves]: el.secondary.onClick !== undefined }, el.secondary.css)}>
+                &lt;i className={cx('material-icons', el.secondary.icon)}>{el.secondary.icon || 'more_vert'}&lt;/i>
+              &lt;/div>
+            ) : null}
+          &lt;/a>
+        ))}
+        {list.length ? (
+          (addElement &amp;&amp; addElement.trailing) ? (
+            &lt;a href='#!' className={cx('collection-item avatar activator trailing add', waves)} onClick={addElement.onClick}>
+              &lt;i className='material-icons circle activator'>{(addElement.trailing &amp;&amp; addElement.trailing.icon) || 'add'}&lt;/i>
+              &lt;span className='title truncate activator'>{(addElement.trailing &amp;&amp; addElement.trailing.title) || 'Add a new element'}&lt;/span>
+            &lt;/a>
+          ) : null
+        ) : (
+          (addElement &amp;&amp; addElement.empty) ? (
+            &lt;a href='#!' className={cx('collection-item big-avatar activator empty add', waves)} onClick={addElement.onClick}>
+              &lt;i className='material-icons circle activator'>{(addElement.empty &amp;&amp; addElement.empty.icon) || 'add'}&lt;/i>
+              &lt;span className='title truncate activator'>{(addElement.empty &amp;&amp; addElement.empty.title) || 'Add a first element'}&lt;/span>
+            &lt;/a>
+          ) : (
+            &lt;a nohref className={cx('collection-item big-avatar activator empty add')}>
+              &lt;span className='title truncate activator'>There is nothing to show here.&lt;/span>
+            &lt;/a>
+          )
+        )}
+      &lt;/div>
+    )
+  }
+}
+
+export default CollectionSetting
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Asterism.PatternLock.html">PatternLock</a></li><li><a href="module-Asterism.TemperatureProgrammer.html">TemperatureProgrammer</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Sep 09 2020 23:09:06 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

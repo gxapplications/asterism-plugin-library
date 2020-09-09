@@ -143,30 +143,34 @@ class ItemSettingPanel extends React.Component {
     if (item) {
       // it's an item update, return nothing but update item here
       save(params)
-      .then(() => {
-        if (item.receiveNewParams) {
-          item.receiveNewParams(params)
-        }
-        settingPanelCallback()
-      })
+        .then(() => {
+          if (item.receiveNewParams) {
+            item.receiveNewParams(params)
+          }
+          settingPanelCallback()
+        })
     } else {
       // it's a new item creation, return the full structure
       save(params)
-      .then(() => {
-        const itemLinker = new ItemFactoryBuilder.ItemLinker()
-        const newItem = <ItemClass id={id} initialParams={params} context={context} ref={(c) => itemLinker.receiveItem(c)} acceptedDimensions={acceptedDimensions} />
-        const newSettingPanel = <this.constructor ref={(c) => itemLinker.receiveItemSettingPanel(c)}
-          icon={this.props.icon} title={this.props.title}
-          id={id} initialParams={params} item={newItem} context={context}
-          save={save} acceptedDimensions={acceptedDimensions} settingPanelCallback={settingPanelCallback} />
-        return settingPanelCallback({
-          id,
-          item: newItem,
-          preferredHeight,
-          preferredWidth,
-          settingPanel: newSettingPanel
+        .then(() => {
+          const itemLinker = new ItemFactoryBuilder.ItemLinker()
+          const newItem = <ItemClass id={id} initialParams={params} context={context} ref={(c) => itemLinker.receiveItem(c)} acceptedDimensions={acceptedDimensions} />
+          const newSettingPanel = (
+            <this.constructor
+              ref={(c) => itemLinker.receiveItemSettingPanel(c)}
+              icon={this.props.icon} title={this.props.title}
+              id={id} initialParams={params} item={newItem} context={context}
+              save={save} acceptedDimensions={acceptedDimensions} settingPanelCallback={settingPanelCallback}
+            />
+          )
+          return settingPanelCallback({
+            id,
+            item: newItem,
+            preferredHeight,
+            preferredWidth,
+            settingPanel: newSettingPanel
+          })
         })
-      })
     }
   }
 

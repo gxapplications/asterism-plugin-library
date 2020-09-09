@@ -84,24 +84,24 @@ class StatesDropdown extends React.Component {
   componentDidMount () {
     this.scenariiService.getStateTypes().then((types) => {
       return this.scenariiService.getStateInstances()
-      .then((instances) => {
-        instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
+        .then((instances) => {
+          instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
 
-        this.setState({
-          types: types.filter(this.props.typeFilter).map((type) => ({
-            id: type.id,
-            type: type.type,
-            onClick: () => {
-              this.scenariiService.createStateInstance(type.id).then((newState) => {
-                this.setState({
-                  creatingInstance: newState
+          this.setState({
+            types: types.filter(this.props.typeFilter).map((type) => ({
+              id: type.id,
+              type: type.type,
+              onClick: () => {
+                this.scenariiService.createStateInstance(type.id).then((newState) => {
+                  this.setState({
+                    creatingInstance: newState
+                  })
                 })
-              })
-            }
-          })),
-          instances
+              }
+            })),
+            instances
+          })
         })
-      })
     })
   }
 
@@ -123,12 +123,12 @@ class StatesDropdown extends React.Component {
     return (
       <div id={`states-dropdown-modal-anchor-${dropdownId}`}>
         <Select s={12} label={label} icon='error' onChange={this.valueChanged.bind(this)} value={currentId || ''}>
-          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value={''} disabled>Please choose a state</option> : []}
+          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value='' disabled>Please choose a state</option> : []}
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
-          {types.length > 0 ? <option key='no-type-choosed' value={''} disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose a state to create'}</option> : []}
+          {types.length > 0 ? <option key='no-type-choosed' value='' disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose a state to create'}</option> : []}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
@@ -140,22 +140,33 @@ class StatesDropdown extends React.Component {
                 <h4>{EditForm.label || 'State configuration'}</h4>
               </div>
               <div>
-                <EditForm ref={(c) => { this._editFormInstance = c }}
+                <EditForm
+                  ref={(c) => { this._editFormInstance = c }}
                   instance={creatingInstance} services={services}
                   theme={theme} animationLevel={animationLevel}
                 />
               </div>
             </div>
             <div className={cx('modal-footer', theme.backgrounds.body)}>
-              <a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
-                'modal-action btn-flat',
-                { 'waves-effect waves-green': animationLevel >= 3 }
-              )}><Icon left>check</Icon> Ok</a>
+              <a
+                href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)}
+                className={cx(
+                  'modal-action btn-flat',
+                  { 'waves-effect waves-green': animationLevel >= 3 }
+                )}
+              >
+                <Icon left>check</Icon> Ok
+              </a>
 
-              <a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
-                'modal-action btn-flat',
-                { 'waves-effect waves-red': animationLevel >= 3 }
-              )}><Icon left>clear</Icon> Cancel</a>
+              <a
+                href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)}
+                className={cx(
+                  'modal-action btn-flat',
+                  { 'waves-effect waves-red': animationLevel >= 3 }
+                )}
+              >
+                <Icon left>clear</Icon> Cancel
+              </a>
             </div>
           </div>
         ) : null}
@@ -176,13 +187,13 @@ class StatesDropdown extends React.Component {
 
   confirmNewInstance (creatingInstance) {
     this.scenariiService.setStateInstance(creatingInstance)
-    .then(() => {
-      const instances = [...this.state.instances, creatingInstance]
-      $(`#states-dropdown-modal-${this.props.dropdownId}`).modal('close')
-      $(`#states-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#states-dropdown-modal-anchor-${this.props.dropdownId}`)
-      this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
-      this.props.onChange(creatingInstance.instanceId)
-    })
+      .then(() => {
+        const instances = [...this.state.instances, creatingInstance]
+        $(`#states-dropdown-modal-${this.props.dropdownId}`).modal('close')
+        $(`#states-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#states-dropdown-modal-anchor-${this.props.dropdownId}`)
+        this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
+        this.props.onChange(creatingInstance.instanceId)
+      })
   }
 
   cancelNewInstance (creatingInstance) {

@@ -99,14 +99,14 @@ class TemperatureProgrammer extends React.Component {
 
   componentWillMount () {
     return Promise.all([this.props.plannerGetter(), this.props.temperaturesGetter()])
-    .then(([{ plannings, todayOverridenPlanning }, { ecoTemperature, comfortTemperature }]) => {
-      this.setState({
-        plannings,
-        todayOverridenPlanning,
-        ecoTemperature,
-        comfortTemperature
+      .then(([{ plannings, todayOverridenPlanning }, { ecoTemperature, comfortTemperature }]) => {
+        this.setState({
+          plannings,
+          todayOverridenPlanning,
+          ecoTemperature,
+          comfortTemperature
+        })
       })
-    })
   }
 
   _updateCurrentHourStep () {
@@ -151,15 +151,15 @@ class TemperatureProgrammer extends React.Component {
 
   shouldComponentUpdate (nextProps, nextState) {
     if (
-        (nextProps.scaleOffset !== this.props.scaleOffset) ||
-        (nextProps.scaleAmplitude !== this.props.scaleAmplitude) ||
-        (nextProps.title !== this.props.title) ||
-        (nextProps.centralColor !== this.props.centralColor) ||
-        (nextProps.centralText !== this.props.centralText) ||
-        (nextState.ecoTemperature !== this.state.ecoTemperature) ||
-        (nextState.comfortTemperature !== this.state.comfortTemperature) ||
-        (nextState.today !== this.state.today) ||
-        (nextState.currentHourStep !== this.state.currentHourStep)
+      (nextProps.scaleOffset !== this.props.scaleOffset) ||
+      (nextProps.scaleAmplitude !== this.props.scaleAmplitude) ||
+      (nextProps.title !== this.props.title) ||
+      (nextProps.centralColor !== this.props.centralColor) ||
+      (nextProps.centralText !== this.props.centralText) ||
+      (nextState.ecoTemperature !== this.state.ecoTemperature) ||
+      (nextState.comfortTemperature !== this.state.comfortTemperature) ||
+      (nextState.today !== this.state.today) ||
+      (nextState.currentHourStep !== this.state.currentHourStep)
     ) {
       return true
     }

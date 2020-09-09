@@ -96,27 +96,27 @@ class ActionsDropdown extends React.Component {
   componentDidMount () {
     this.scenariiService.getActionTypes().then((types) => {
       return this.scenariiService.getActionInstances()
-      .then((instances) => {
-        instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
-        this.setState({
-          types: types.filter(this.props.typeFilter).map((type) => ({
-            id: type.id,
-            type: type.type,
-            onClick: () => {
-              this.scenariiService.createActionInstance(type.id).then((newAction) => {
-                if (this.props.noCreationPanel) {
-                  this.confirmNewInstance(newAction)
-                } else {
-                  this.setState({
-                    creatingInstance: newAction
-                  })
-                }
-              })
-            }
-          })),
-          instances
+        .then((instances) => {
+          instances = instances.filter(i => !!i).filter(this.props.instanceFilter)
+          this.setState({
+            types: types.filter(this.props.typeFilter).map((type) => ({
+              id: type.id,
+              type: type.type,
+              onClick: () => {
+                this.scenariiService.createActionInstance(type.id).then((newAction) => {
+                  if (this.props.noCreationPanel) {
+                    this.confirmNewInstance(newAction)
+                  } else {
+                    this.setState({
+                      creatingInstance: newAction
+                    })
+                  }
+                })
+              }
+            })),
+            instances
+          })
         })
-      })
     })
   }
 
@@ -138,12 +138,12 @@ class ActionsDropdown extends React.Component {
     return (
       <div id={`actions-dropdown-modal-anchor-${dropdownId}`}>
         <Select s={12} label={label} icon={icon} onChange={this.valueChanged.bind(this)} value={currentId || ''}>
-          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value={''} disabled>Please choose an action</option> : []}
+          {(instances.length + childrenCount) > 0 ? <option key='no-option-choosed' value='' disabled>Please choose an action</option> : []}
           {children || []}
           {instances.map((instance, idx) => (
             <option key={instance.instanceId} value={instance.instanceId}>{instance.shortLabel}</option>
           ))}
-          {types.length > 0 ? <option key='no-type-choosed' value={''} disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose an action to create'}</option> : []}
+          {types.length > 0 ? <option key='no-type-choosed' value='' disabled>{(instances.length + childrenCount) > 0 ? 'Or create a new one from these:' : 'Choose an action to create'}</option> : []}
           {types.map(({ id, type, onClick }, idx) => (
             <option key={type.name} value={id}>+ {type.shortLabel || type.name}</option>
           ))}
@@ -155,22 +155,33 @@ class ActionsDropdown extends React.Component {
                 <h4>{EditForm.label || 'Action configuration'}</h4>
               </div>
               <div>
-                <EditForm ref={(c) => { this._editFormInstance = c }}
+                <EditForm
+                  ref={(c) => { this._editFormInstance = c }}
                   instance={creatingInstance} services={services}
                   theme={theme} animationLevel={animationLevel}
                 />
               </div>
             </div>
             <div className={cx('modal-footer', theme.backgrounds.body)}>
-              <a href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)} className={cx(
-                'modal-action btn-flat',
-                { 'waves-effect waves-green': animationLevel >= 3 }
-              )}><Icon left>check</Icon> Ok</a>
+              <a
+                href='#!' onClick={this.confirmNewInstance.bind(this, creatingInstance)}
+                className={cx(
+                  'modal-action btn-flat',
+                  { 'waves-effect waves-green': animationLevel >= 3 }
+                )}
+              >
+                <Icon left>check</Icon> Ok
+              </a>
 
-              <a href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)} className={cx(
-                'modal-action btn-flat',
-                { 'waves-effect waves-red': animationLevel >= 3 }
-              )}><Icon left>clear</Icon> Cancel</a>
+              <a
+                href='#!' onClick={this.cancelNewInstance.bind(this, creatingInstance)}
+                className={cx(
+                  'modal-action btn-flat',
+                  { 'waves-effect waves-red': animationLevel >= 3 }
+                )}
+              >
+                <Icon left>clear</Icon> Cancel
+              </a>
             </div>
           </div>
         ) : null}
@@ -191,13 +202,13 @@ class ActionsDropdown extends React.Component {
 
   confirmNewInstance (creatingInstance) {
     this.scenariiService.setActionInstance(creatingInstance, this.props.parentIdForNewInstance)
-    .then(() => {
-      const instances = [...this.state.instances, creatingInstance]
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
-      $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
-      this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
-      this.props.onChange(creatingInstance.instanceId)
-    })
+      .then(() => {
+        const instances = [...this.state.instances, creatingInstance]
+        $(`#actions-dropdown-modal-${this.props.dropdownId}`).modal('close')
+        $(`#actions-dropdown-modal-${this.props.dropdownId}`).detach().appendTo(`#actions-dropdown-modal-anchor-${this.props.dropdownId}`)
+        this.setState({ instances, currentId: creatingInstance.instanceId, creatingInstance: null })
+        this.props.onChange(creatingInstance.instanceId)
+      })
   }
 
   cancelNewInstance (creatingInstance) {

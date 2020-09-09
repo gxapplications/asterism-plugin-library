@@ -28,4 +28,4 @@ The documentation is available [here, as a jsDoc](https://gxapplications.github.
 For more documentation about _asterism_, go to the [asterism wiki pages](https://github.com/gxapplications/asterism/wiki/Developer-documentation)
 
 
-:copyright: 2017-2019 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]
+:copyright: 2017-2020 GXApplications. [ [License](https://github.com/gxapplications/asterism-plugin-library/blob/master/LICENSE.md) ]
