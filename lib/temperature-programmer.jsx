@@ -194,18 +194,26 @@ class TemperatureProgrammer extends React.Component {
       today,
       onMinUpdate: (old, value) => {
         this.closePlanningMode()
-        if (old === value) {
+        // eslint-disable-next-line eqeqeq
+        if (old == value) {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
+        this.setState({
+          ecoTemperature: value
+        })
         onTemperaturesChange(value, this.state.comfortTemperature)
       },
       onMaxUpdate: (old, value) => {
         this.closePlanningMode()
-        if (old === value) {
+        // eslint-disable-next-line eqeqeq
+        if (old == value) {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
+        this.setState({
+          comfortTemperature: value
+        })
         onTemperaturesChange(this.state.ecoTemperature, value)
       },
       onPlanerUpdate: (old, value) => {
