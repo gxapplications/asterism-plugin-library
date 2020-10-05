@@ -199,10 +199,17 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        this.setState({
-          ecoTemperature: value
-        })
-        onTemperaturesChange(value, this.state.comfortTemperature)
+        const fixedValues = onTemperaturesChange(value, this.state.comfortTemperature)
+        if (fixedValues) {
+          this.setState({
+            ecoTemperature: fixedValues.ecoTemperature,
+            comfortTemperature: fixedValues.comfortTemperature
+          })
+        } else {
+          this.setState({
+            ecoTemperature: value
+          })
+        }
       },
       onMaxUpdate: (old, value) => {
         this.closePlanningMode()
@@ -211,10 +218,17 @@ class TemperatureProgrammer extends React.Component {
           return
         }
         value = parseFloat(value) // cast. Can be int or float
-        this.setState({
-          comfortTemperature: value
-        })
-        onTemperaturesChange(this.state.ecoTemperature, value)
+        const fixedValues = onTemperaturesChange(this.state.ecoTemperature, value)
+        if (fixedValues) {
+          this.setState({
+            ecoTemperature: fixedValues.ecoTemperature,
+            comfortTemperature: fixedValues.comfortTemperature
+          })
+        } else {
+          this.setState({
+            comfortTemperature: value
+          })
+        }
       },
       onPlanerUpdate: (old, value) => {
         this.maintainPlanningMode()
