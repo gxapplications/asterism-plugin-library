@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: ItemFactoryBuilder</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: ItemFactoryBuilder</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-Asterism.html">Asterism</a>.</span>ItemFactoryBuilder<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>This class is used by a plugin to add item types. In an item factory (just one by plugin, referenced in the plugin manifest), we can specify many item types.
+See example for use.</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="ItemFactoryBuilder"><span class="type-signature"></span>new ItemFactoryBuilder<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line304">line 304</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx">https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="build"><span class="type-signature"></span>build<span class="signature">(BaseClass)</span><span class="type-signature"> &rarr; {ItemTypeBuilder}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>When all item type are built, call this to validate the entire builder and obtain a class.
+See example to know how to export the returned class.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>BaseClass</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">class</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The class to instantiate an itemFactory. Should be kept as is (BasicItemFactory by default).</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line338">line 338</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx">https://github.com/gxapplications/asterism/blob/master/lib/plugins/scenarii/item-factory.jsx</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>A class instance, extending the BaseClass given in the first parameter (often a BasicItemFactory).</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemTypeBuilder</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="newItemType"><span class="type-signature"></span>newItemType<span class="signature">(id, category)</span><span class="type-signature"> &rarr; {ItemTypeBuilder}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>To start a new item type build, call this method with a unique id and a category.</p>
+<p>Categories:</p>
+<ul>
+<li>AdditionalItem.categories.DOMOTICS,</li>
+<li>AdditionalItem.categories.SECURITY,</li>
+<li>AdditionalItem.categories.SCREENING,</li>
+<li>AdditionalItem.categories.COMMUNICATION,</li>
+<li>AdditionalItem.categories.INFORMATION,</li>
+<li>AdditionalItem.categories.DEVELOPMENT (to use only in dev mode, not shown in production mode)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A unique id to refer to this item type. Mandatory.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A category to clissify item type.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="item-factory-builder.jsx.html">item-factory-builder.jsx</a>, <a href="item-factory-builder.jsx.html#line325">line 325</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>A new ItemTypeBuilder instance, to begin describing an item type.</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">ItemTypeBuilder</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Asterism.html">Asterism</a></li><li><a href="module-Scenarii.html">Scenarii</a></li></ul><h3>Classes</h3><ul><li><a href="module-Asterism.ActionColorSwitch.html">ActionColorSwitch</a></li><li><a href="module-Asterism.CollectionSetting.html">CollectionSetting</a></li><li><a href="module-Asterism.IconPicker.html">IconPicker</a></li><li><a href="module-Asterism.Item.html">Item</a></li><li><a href="module-Asterism.ItemFactoryBuilder.html">ItemFactoryBuilder</a></li><li><a href="module-Asterism.ItemSettingPanel.html">ItemSettingPanel</a></li><li><a href="module-Asterism.ItemTypeBuilder.html">ItemTypeBuilder</a></li><li><a href="module-Asterism.PatternLock.html">PatternLock</a></li><li><a href="module-Asterism.TemperatureProgrammer.html">TemperatureProgrammer</a></li><li><a href="module-Scenarii.ActionsDropdown.html">ActionsDropdown</a></li><li><a href="module-Scenarii.BrowserAction.html">BrowserAction</a></li><li><a href="module-Scenarii.BrowserCondition.html">BrowserCondition</a></li><li><a href="module-Scenarii.BrowserScenario.html">BrowserScenario</a></li><li><a href="module-Scenarii.BrowserState.html">BrowserState</a></li><li><a href="module-Scenarii.BrowserTrigger.html">BrowserTrigger</a></li><li><a href="module-Scenarii.ConditionsDropdown.html">ConditionsDropdown</a></li><li><a href="module-Scenarii.ScenariiDropdown.html">ScenariiDropdown</a></li><li><a href="module-Scenarii.ServerAction.html">ServerAction</a></li><li><a href="module-Scenarii.ServerCondition.html">ServerCondition</a></li><li><a href="module-Scenarii.ServerScenario.html">ServerScenario</a></li><li><a href="module-Scenarii.ServerState.html">ServerState</a></li><li><a href="module-Scenarii.ServerTrigger.html">ServerTrigger</a></li><li><a href="module-Scenarii.StatesDropdown.html">StatesDropdown</a></li><li><a href="module-Scenarii.TriggersDropdown.html">TriggersDropdown</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-local-storage.html">Global localStorage usage</a></li><li><a href="tutorial-server-storage.html">Global serverStorage usage</a></li><li><a href="tutorial-services.html">Services registry</a></li><li><a href="tutorial-socket.html">Public sockets registry</a></li><li><a href="tutorial-theme.html">Global theme usage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Sat Mar 12 2022 00:19:36 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
