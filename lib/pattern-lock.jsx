@@ -105,7 +105,21 @@ class PatternLock extends React.Component {
       }
     }, 1500)
     this.lock.disable()
-    return this.props.patternCallback(pattern)
+
+    const callbackResult = this.props.patternCallback(pattern)
+    if (callbackResult instanceof Promise) {
+      return callbackResult.catch(() => {
+        this._errorTimer = setTimeout(() => {
+          if (this.lock) {
+            this.lock.reset()
+            this.lock.enable()
+          }
+        }, 3000)
+        this.lock.disable()
+        return this.lock.error()
+      })
+    }
+    return callbackResult
   }
 }
 
