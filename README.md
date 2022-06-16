@@ -9,7 +9,6 @@ _This the common interfaces & utility libs to build a plugin for asterism. Use i
 [![release date](https://img.shields.io/github/release-date/gxapplications/asterism-plugin-library.svg)](https://github.com/gxapplications/asterism-plugin-library/releases)
 [![npm package version](https://badge.fury.io/js/asterism-plugin-library.svg?logo=npm)](https://www.npmjs.com/package/asterism-plugin-library)
 [![npm downloads](https://img.shields.io/npm/dt/asterism-plugin-library.svg?logo=npm&label=npm%20downloads)](https://www.npmjs.com/package/asterism-plugin-library)
-[![Dependencies](https://david-dm.org/gxapplications/asterism-plugin-library/status.svg?logo=dependabot)](https://david-dm.org/gxapplications/asterism-plugin-library)
 
 _[Roadmap available here (asterism and plugins)](https://github.com/users/gxapplications/projects/1)_
 
